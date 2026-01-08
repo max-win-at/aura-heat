@@ -1,0 +1,2 @@
+# Aura Heat
+Static pages
