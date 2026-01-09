@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Heat | Blackhole Hardware Readiness</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .slide-in { animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Interactive Card Hover Effects from Aura Heat Style */
+        .interactive-card { transition: all 0.3s ease; border-left: 4px solid transparent; }
+        .interactive-card:hover { transform: translateX(5px); border-left-color: #f97316; background-color: #fff7ed; }
+        .interactive-card.active { border-left-color: #ea580c; background-color: #ffedd5; }
+        
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-slate-800 tracking-tighter uppercase">Aura<span class="text-orange-500">Heat</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8" id="nav-container">
+                    <button data-tab="overview" class="tab-btn text-slate-600 hover:text-orange-600 font-bold transition border-b-2 border-transparent py-1">Architecture</button>
+                    <button data-tab="experience" class="tab-btn text-slate-600 hover:text-orange-600 font-bold transition border-b-2 border-transparent py-1">Field Reports</button>
+                    <button data-tab="readiness" class="tab-btn text-slate-600 hover:text-orange-600 font-bold transition border-b-2 border-transparent py-1">Readiness</button>
+                    <button data-tab="economics" class="tab-btn px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition shadow-sm font-bold">Economics</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="pt-32 pb-20 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-800 text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-orange-500 opacity-10 skew-x-12 transform origin-top-right"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center md:text-left md:w-2/3">
+                <div class="inline-block px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm font-semibold mb-6 border border-orange-500/30">
+                    2025-2026 Technical Assessment
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+                    The Blackhole <br>
+                    <span class="text-orange-500">Event Horizon.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
+                    Tenstorrent’s p150a RISC-V infrastructure assessment. Radical hardware efficiency meeting a complex software ecosystem.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" id="main-content">
+        <!-- JS Injected Content -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-indigo-950 text-white py-16 border-t border-indigo-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center font-black italic">AH</div>
+                    <div>
+                        <div class="font-bold text-white uppercase tracking-tight">Aura Heat</div>
+                        <div class="text-xs text-indigo-300 font-mono uppercase tracking-widest">Global AI Infrastructure</div>
+                    </div>
+                </div>
+                <div class="text-slate-400 text-sm italic max-w-md text-center md:text-right">
+                    "Software optimizations like speculative decoding could double performance in the future." — Jim Keller
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-indigo-900 text-center text-slate-500 text-xs">
+                © Aura Heat. All rights reserved. Calculations based on January 2026 market analysis.
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        /**
+         * App State & Components
+         */
+        const state = {
+            activeTab: 'overview'
+        };
+
+        const icons = {
+            cpu: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-500"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></svg>`,
+            zap: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-500"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+            network: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-500"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="16" y="2" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="16" y="16" width="6" height="6" rx="1"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/><line x1="8" y1="5" x2="16" y2="5"/><line x1="8" y1="19" x2="16" y2="19"/></svg>`,
+            layers: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-500"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`
+        };
+
+        const renderCard = (title, iconName, content, className = "") => `
+            <div class="interactive-card bg-white border border-slate-200 rounded-xl p-8 shadow-sm ${className}">
+                <div class="flex items-center gap-3 mb-4">
+                    ${icons[iconName] || ''}
+                    <h3 class="text-xl font-bold text-slate-900 uppercase tracking-tight">${title}</h3>
+                </div>
+                ${content}
+            </div>
+        `;
+
+        const renderMeter = (label, score, analysis) => {
+            const colors = {
+                High: 'text-emerald-700 bg-emerald-100',
+                Medium: 'text-amber-700 bg-amber-100',
+                Low: 'text-rose-700 bg-rose-100'
+            };
+            const widths = { High: 'w-full', Medium: 'w-2/3', Low: 'w-1/3' };
+            const barColors = { High: 'bg-emerald-500', Medium: 'bg-amber-500', Low: 'bg-rose-500' };
+
+            return `
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-slate-800 font-bold">${label}</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase ${colors[score]}">
+                            ${score}
+                        </span>
+                    </div>
+                    <div class="h-3 w-full bg-slate-200 rounded-full overflow-hidden mb-2">
+                        <div class="h-full rounded-full transition-all duration-1000 ${widths[score]} ${barColors[score]}"></div>
+                    </div>
+                    <p class="text-sm text-slate-500 italic">"${analysis}"</p>
+                </div>
+            `;
+        };
+
+        /**
+         * Views
+         */
+        const views = {
+            overview: () => `
+                <div class="space-y-12 slide-in">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4 uppercase tracking-tighter">Radical Scalability</h2>
+                        <p class="text-slate-600 max-w-2xl mx-auto">Blackhole bypasses traditional bottlenecks using standard networking protocols and programmable cores.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        ${renderCard('Tensix Core Grid', 'layers', `
+                            <div class="text-4xl font-black text-orange-600 mb-2">140 Cores</div>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                Fully programmable RISC-V cores networked via a 2D NoC. Rejecting the fixed-function ASIC model.
+                            </p>
+                        `)}
+                        ${renderCard('GDDR6 Architecture', 'zap', `
+                            <div class="text-4xl font-black text-orange-600 mb-2">512 GB/s</div>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                Uses standard GDDR6 to slash costs while maintaining the bandwidth necessary for dense inference.
+                            </p>
+                        `)}
+                        ${renderCard('Native Ethernet', 'network', `
+                            <div class="text-4xl font-black text-orange-600 mb-2">800G Mesh</div>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                Direct-attach Ethernet ports allow for switch-less clusters and infinite linear scaling.
+                            </p>
+                        `)}
+                    </div>
+
+                    <div class="bg-slate-900 rounded-2xl p-8 text-white relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                        <div class="grid md:grid-cols-2 gap-12 items-center relative z-10">
+                            <div>
+                                <h3 class="text-2xl font-bold text-orange-500 mb-4 uppercase">The Architectural Shift</h3>
+                                <p class="text-slate-300 mb-6 leading-relaxed">
+                                    Tenstorrent is moving the "intelligence" to the compute unit. Unlike GPGPUs, Blackhole can run a full Linux OS locally, acting as a standalone computer rather than just a co-processor.
+                                </p>
+                                <div class="space-y-4">
+                                    <div class="flex items-center gap-3"><span class="text-orange-500">✓</span> <span>Integrated RISC-V Ecosystem</span></div>
+                                    <div class="flex items-center gap-3"><span class="text-orange-500">✓</span> <span>Packet-Switching Compute Grid</span></div>
+                                </div>
+                            </div>
+                            <div class="bg-black/40 p-6 rounded-xl border border-slate-700 font-mono text-sm text-orange-300">
+                                <div class="text-slate-500 mb-2"># BLACKHOLE-P150A.CFG</div>
+                                <div class="flex justify-between py-1 border-b border-white/5"><span>Processor</span> <span class="text-white">6nm FinFET</span></div>
+                                <div class="flex justify-between py-1 border-b border-white/5"><span>SRAM</span> <span class="text-white">128 MB</span></div>
+                                <div class="flex justify-between py-1 border-b border-white/5"><span>TDP</span> <span class="text-white">~350W Peak</span></div>
+                                <div class="flex justify-between py-1 text-lg mt-2"><span>MSRP</span> <span class="text-orange-500 font-bold">$1,399</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            experience: () => `
+                <div class="space-y-12 slide-in">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4 uppercase">Field Intel</h2>
+                        <p class="text-slate-600 max-w-2xl mx-auto">First-hand reports from early-access labs and strategic partners.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="interactive-card p-8 bg-white border border-slate-200 rounded-xl">
+                             <div class="flex justify-between mb-4">
+                                <h3 class="text-xl font-bold text-slate-900 uppercase">Independent Review</h3>
+                                <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded">Mixed</span>
+                            </div>
+                            <p class="text-slate-600 italic mb-6">
+                                "Latency for first token is incredible, but the software stack feels like a construction site. Expect driver hangs if telemetry is pushed too hard."
+                            </p>
+                            <div class="text-xs font-bold text-orange-600 uppercase">Pro Hi-Tech Labs</div>
+                        </div>
+
+                        <div class="interactive-card p-8 bg-white border border-slate-200 rounded-xl">
+                             <div class="flex justify-between mb-4">
+                                <h3 class="text-xl font-bold text-slate-900 uppercase">Data Center Ops</h3>
+                                <span class="px-2 py-1 bg-rose-100 text-rose-700 text-xs font-bold rounded">Warning</span>
+                            </div>
+                            <p class="text-slate-600 italic mb-6">
+                                "Idle power draw is a major concern at 120W per card. You're paying for heat even when the system is waiting for tasks."
+                            </p>
+                            <div class="text-xs font-bold text-orange-600 uppercase">SME Cluster Insights</div>
+                        </div>
+                    </div>
+
+                    <div class="p-8 bg-orange-50 border border-orange-200 rounded-xl">
+                        <h3 class="text-xl font-bold text-orange-700 mb-4 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            CRITICAL BUG ADVISORY
+                        </h3>
+                        <div class="grid md:grid-cols-3 gap-8">
+                            <div>
+                                <h4 class="font-bold text-slate-900 mb-1">Driver Stability</h4>
+                                <p class="text-sm text-slate-600">Frequent kernel panics when using high-level telemetry tools like 'Watcher'.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 mb-1">Documentation</h4>
+                                <p class="text-sm text-slate-600">Many APIs are undocumented; requiring users to dive into the C++ kernel code.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 mb-1">VRAM Ceiling</h4>
+                                <p class="text-sm text-slate-600">32GB limits single-card usage for 70B models. Multi-node networking is required.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            readiness: () => `
+                <div class="space-y-12 slide-in">
+                    <div class="grid md:grid-cols-2 gap-16">
+                        <div>
+                            <h2 class="text-3xl font-bold text-slate-900 mb-8 uppercase tracking-tighter">Readiness Index</h2>
+                            ${renderMeter('Silicon Reliability', 'High', 'Hardware is stable, mass-produced, and functionally sound.')}
+                            ${renderMeter('Driver Maturity', 'Low', 'Active development causing breaking changes weekly.')}
+                            ${renderMeter('Eco-system (Metal)', 'Medium', 'TT-Metalium is powerful but has a steep learning curve.')}
+                            ${renderMeter('Cost Efficiency', 'High', 'Unbeatable $/FLOP at the hardware level.')}
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="p-8 bg-white border border-slate-200 rounded-2xl text-center shadow-lg">
+                                <div class="text-rose-500 mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900 uppercase">Enterprise Production</h3>
+                                <div class="text-2xl font-black text-rose-600 my-2">NOT READY</div>
+                                <p class="text-slate-500 text-sm italic">"Requires full-time engineers for platform maintenance."</p>
+                            </div>
+
+                            <div class="p-8 bg-white border-2 border-orange-500 rounded-2xl text-center shadow-lg">
+                                <div class="text-orange-500 mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-900 uppercase">R&D / Academic</h3>
+                                <div class="text-2xl font-black text-orange-500 my-2">FULLY READY</div>
+                                <p class="text-slate-500 text-sm italic">"Ideal for teams building custom kernels and AI research."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            economics: () => `
+                <div class="space-y-12 slide-in">
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-black text-slate-900 mb-4 uppercase tracking-tighter">Value Analysis</h2>
+                        <p class="text-slate-600">10-Year TCO projection for 128GB Cluster Capacity</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="p-8 bg-white border border-slate-200 rounded-2xl flex flex-col">
+                            <span class="text-xs text-orange-600 font-bold uppercase tracking-widest mb-4">Tenstorrent p150a x4</span>
+                            <div class="text-5xl font-black text-slate-900 mb-6">$5,600</div>
+                            <ul class="space-y-3 mb-8 text-sm">
+                                <li class="flex justify-between"><span>Memory</span> <strong>128GB</strong></li>
+                                <li class="flex justify-between text-emerald-600 font-bold"><span>Networking</span> <strong>FREE</strong></li>
+                                <li class="flex justify-between"><span>Cluster Cost</span> <strong>Low</strong></li>
+                            </ul>
+                            <div class="mt-auto px-4 py-2 bg-orange-600 text-white rounded font-bold uppercase text-xs text-center">Efficiency King</div>
+                        </div>
+
+                        <div class="p-8 bg-white border border-slate-200 rounded-2xl flex flex-col shadow-xl ring-2 ring-slate-100">
+                             <span class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-4">NVIDIA RTX 5090 x4</span>
+                            <div class="text-5xl font-black text-slate-900 mb-6">~$8,800</div>
+                             <ul class="space-y-3 mb-8 text-sm">
+                                <li class="flex justify-between"><span>Memory</span> <strong>128GB</strong></li>
+                                <li class="flex justify-between text-rose-500 font-bold"><span>Networking</span> <strong>Host Bottleneck</strong></li>
+                                <li class="flex justify-between"><span>Cluster Cost</span> <strong>Medium</strong></li>
+                            </ul>
+                            <div class="mt-auto px-4 py-2 bg-slate-200 text-slate-600 rounded font-bold uppercase text-xs text-center">Consumer Choice</div>
+                        </div>
+
+                        <div class="p-8 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col text-white">
+                             <span class="text-xs text-orange-400 font-bold uppercase tracking-widest mb-4">NVIDIA H100 x2</span>
+                            <div class="text-5xl font-black text-orange-500 mb-6">$50,000+</div>
+                             <ul class="space-y-3 mb-8 text-sm">
+                                <li class="flex justify-between"><span>Memory</span> <strong>160GB</strong></li>
+                                <li class="flex justify-between text-orange-400 font-bold"><span>Networking</span> <strong>NVLink Req.</strong></li>
+                                <li class="flex justify-between"><span>Cluster Cost</span> <strong>Extreme</strong></li>
+                            </ul>
+                            <div class="mt-auto px-4 py-2 bg-white/10 text-white rounded font-bold uppercase text-xs text-center">Enterprise Standard</div>
+                        </div>
+                    </div>
+                </div>
+            `
+        };
+
+        /**
+         * Orchestration
+         */
+        const updateUI = () => {
+            const mainContent = document.getElementById('main-content');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            
+            // Update Tab Styling
+            tabButtons.forEach(btn => {
+                const isSelected = btn.dataset.tab === state.activeTab;
+                if (btn.classList.contains('bg-orange-600')) return; // Ignore call-to-action button
+                
+                btn.classList.toggle('text-orange-600', isSelected);
+                btn.classList.toggle('border-orange-600', isSelected);
+                btn.classList.toggle('text-slate-600', !isSelected);
+                btn.classList.toggle('border-transparent', !isSelected);
+            });
+
+            // Update Content
+            mainContent.innerHTML = views[state.activeTab]();
+        };
+
+        // Event Delegation for Tabs
+        document.getElementById('nav-container').addEventListener('click', (e) => {
+            const btn = e.target.closest('.tab-btn');
+            if (btn) {
+                state.activeTab = btn.dataset.tab;
+                updateUI();
+                window.scrollTo({ top: 300, behavior: 'smooth' });
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+        });
+    </script>
+</body>
+</html>
