@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura Heat | Blackhole Hardware Readiness</title>
+    <title>AURA HEAT | Blackhole Hardware Readiness</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,20 +31,36 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <span class="text-2xl font-bold text-slate-800 tracking-tighter uppercase">Aura<span class="text-orange-500">Heat</span></span>
+                    <!-- Adjusted Logo Size to match template -->
+                    <span class="text-2xl font-bold text-slate-800 tracking-tighter">AURA<span class="text-orange-500">HEAT</span></span>
                 </div>
+                
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8" id="nav-container">
-                    <button data-tab="overview" class="tab-btn text-slate-600 hover:text-orange-600 font-bold transition border-b-2 border-transparent py-1">Architecture</button>
-                    <button data-tab="experience" class="tab-btn text-slate-600 hover:text-orange-600 font-bold transition border-b-2 border-transparent py-1">Field Reports</button>
-                    <button data-tab="readiness" class="tab-btn text-slate-600 hover:text-orange-600 font-bold transition border-b-2 border-transparent py-1">Readiness</button>
+                    <button data-tab="overview" class="tab-btn text-slate-600 hover:text-orange-600 font-medium transition border-b-2 border-transparent py-1">Architecture</button>
+                    <button data-tab="experience" class="tab-btn text-slate-600 hover:text-orange-600 font-medium transition border-b-2 border-transparent py-1">Field Reports</button>
+                    <button data-tab="readiness" class="tab-btn text-slate-600 hover:text-orange-600 font-medium transition border-b-2 border-transparent py-1">Readiness</button>
                     <button data-tab="economics" class="tab-btn px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition shadow-sm font-bold">Economics</button>
                 </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-orange-600 text-2xl">☰</button>
+                </div>
             </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t p-4 shadow-lg space-y-2">
+            <button data-tab="overview" class="tab-btn block w-full text-left py-2 text-slate-600 font-medium">Architecture</button>
+            <button data-tab="experience" class="tab-btn block w-full text-left py-2 text-slate-600 font-medium">Field Reports</button>
+            <button data-tab="readiness" class="tab-btn block w-full text-left py-2 text-slate-600 font-medium">Readiness</button>
+            <button data-tab="economics" class="tab-btn block w-full text-left py-2 text-orange-600 font-bold">Economics</button>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="pt-32 pb-20 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-800 text-white relative overflow-hidden">
+    <header class="pt-32 pb-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden">
         <div class="absolute top-0 right-0 w-1/3 h-full bg-orange-500 opacity-10 skew-x-12 transform origin-top-right"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center md:text-left md:w-2/3">
@@ -53,7 +69,7 @@
                 </div>
                 <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
                     The Blackhole <br>
-                    <span class="text-orange-500">Event Horizon.</span>
+                    <span class="text-orange-400">Event Horizon.</span>
                 </h1>
                 <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
                     Tenstorrent’s p150a RISC-V infrastructure assessment. Radical hardware efficiency meeting a complex software ecosystem.
@@ -67,21 +83,21 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-indigo-950 text-white py-16 border-t border-indigo-900">
+    <footer class="bg-white border-t border-slate-200 py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-8">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center font-black italic">AH</div>
+                    <div class="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center font-black italic text-white">AH</div>
                     <div>
-                        <div class="font-bold text-white uppercase tracking-tight">Aura Heat</div>
-                        <div class="text-xs text-indigo-300 font-mono uppercase tracking-widest">Global AI Infrastructure</div>
+                        <div class="font-bold text-slate-800 uppercase tracking-tight">Aura Heat</div>
+                        <div class="text-xs text-slate-500 font-mono uppercase tracking-widest">Global AI Infrastructure</div>
                     </div>
                 </div>
-                <div class="text-slate-400 text-sm italic max-w-md text-center md:text-right">
+                <div class="text-slate-500 text-sm italic max-w-md text-center md:text-right">
                     "Software optimizations like speculative decoding could double performance in the future." — Jim Keller
                 </div>
             </div>
-            <div class="mt-12 pt-8 border-t border-indigo-900 text-center text-slate-500 text-xs">
+            <div class="mt-12 pt-8 border-t border-slate-100 text-center text-slate-400 text-xs">
                 © Aura Heat. All rights reserved. Calculations based on January 2026 market analysis.
             </div>
         </div>
@@ -168,29 +184,6 @@
                             </p>
                         `)}
                     </div>
-
-                    <div class="bg-slate-900 rounded-2xl p-8 text-white relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                        <div class="grid md:grid-cols-2 gap-12 items-center relative z-10">
-                            <div>
-                                <h3 class="text-2xl font-bold text-orange-500 mb-4 uppercase">The Architectural Shift</h3>
-                                <p class="text-slate-300 mb-6 leading-relaxed">
-                                    Tenstorrent is moving the "intelligence" to the compute unit. Unlike GPGPUs, Blackhole can run a full Linux OS locally, acting as a standalone computer rather than just a co-processor.
-                                </p>
-                                <div class="space-y-4">
-                                    <div class="flex items-center gap-3"><span class="text-orange-500">✓</span> <span>Integrated RISC-V Ecosystem</span></div>
-                                    <div class="flex items-center gap-3"><span class="text-orange-500">✓</span> <span>Packet-Switching Compute Grid</span></div>
-                                </div>
-                            </div>
-                            <div class="bg-black/40 p-6 rounded-xl border border-slate-700 font-mono text-sm text-orange-300">
-                                <div class="text-slate-500 mb-2"># BLACKHOLE-P150A.CFG</div>
-                                <div class="flex justify-between py-1 border-b border-white/5"><span>Processor</span> <span class="text-white">6nm FinFET</span></div>
-                                <div class="flex justify-between py-1 border-b border-white/5"><span>SRAM</span> <span class="text-white">128 MB</span></div>
-                                <div class="flex justify-between py-1 border-b border-white/5"><span>TDP</span> <span class="text-white">~350W Peak</span></div>
-                                <div class="flex justify-between py-1 text-lg mt-2"><span>MSRP</span> <span class="text-orange-500 font-bold">$1,399</span></div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             `,
             experience: () => `
@@ -223,27 +216,6 @@
                             <div class="text-xs font-bold text-orange-600 uppercase">SME Cluster Insights</div>
                         </div>
                     </div>
-
-                    <div class="p-8 bg-orange-50 border border-orange-200 rounded-xl">
-                        <h3 class="text-xl font-bold text-orange-700 mb-4 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                            CRITICAL BUG ADVISORY
-                        </h3>
-                        <div class="grid md:grid-cols-3 gap-8">
-                            <div>
-                                <h4 class="font-bold text-slate-900 mb-1">Driver Stability</h4>
-                                <p class="text-sm text-slate-600">Frequent kernel panics when using high-level telemetry tools like 'Watcher'.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 mb-1">Documentation</h4>
-                                <p class="text-sm text-slate-600">Many APIs are undocumented; requiring users to dive into the C++ kernel code.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 mb-1">VRAM Ceiling</h4>
-                                <p class="text-sm text-slate-600">32GB limits single-card usage for 70B models. Multi-node networking is required.</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             `,
             readiness: () => `
@@ -259,18 +231,12 @@
 
                         <div class="space-y-6">
                             <div class="p-8 bg-white border border-slate-200 rounded-2xl text-center shadow-lg">
-                                <div class="text-rose-500 mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                                </div>
                                 <h3 class="text-xl font-bold text-slate-900 uppercase">Enterprise Production</h3>
                                 <div class="text-2xl font-black text-rose-600 my-2">NOT READY</div>
                                 <p class="text-slate-500 text-sm italic">"Requires full-time engineers for platform maintenance."</p>
                             </div>
 
                             <div class="p-8 bg-white border-2 border-orange-500 rounded-2xl text-center shadow-lg">
-                                <div class="text-orange-500 mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                                </div>
                                 <h3 class="text-xl font-bold text-slate-900 uppercase">R&D / Academic</h3>
                                 <div class="text-2xl font-black text-orange-500 my-2">FULLY READY</div>
                                 <p class="text-slate-500 text-sm italic">"Ideal for teams building custom kernels and AI research."</p>
@@ -290,33 +256,16 @@
                         <div class="p-8 bg-white border border-slate-200 rounded-2xl flex flex-col">
                             <span class="text-xs text-orange-600 font-bold uppercase tracking-widest mb-4">Tenstorrent p150a x4</span>
                             <div class="text-5xl font-black text-slate-900 mb-6">$5,600</div>
-                            <ul class="space-y-3 mb-8 text-sm">
-                                <li class="flex justify-between"><span>Memory</span> <strong>128GB</strong></li>
-                                <li class="flex justify-between text-emerald-600 font-bold"><span>Networking</span> <strong>FREE</strong></li>
-                                <li class="flex justify-between"><span>Cluster Cost</span> <strong>Low</strong></li>
-                            </ul>
                             <div class="mt-auto px-4 py-2 bg-orange-600 text-white rounded font-bold uppercase text-xs text-center">Efficiency King</div>
                         </div>
-
                         <div class="p-8 bg-white border border-slate-200 rounded-2xl flex flex-col shadow-xl ring-2 ring-slate-100">
                              <span class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-4">NVIDIA RTX 5090 x4</span>
                             <div class="text-5xl font-black text-slate-900 mb-6">~$8,800</div>
-                             <ul class="space-y-3 mb-8 text-sm">
-                                <li class="flex justify-between"><span>Memory</span> <strong>128GB</strong></li>
-                                <li class="flex justify-between text-rose-500 font-bold"><span>Networking</span> <strong>Host Bottleneck</strong></li>
-                                <li class="flex justify-between"><span>Cluster Cost</span> <strong>Medium</strong></li>
-                            </ul>
                             <div class="mt-auto px-4 py-2 bg-slate-200 text-slate-600 rounded font-bold uppercase text-xs text-center">Consumer Choice</div>
                         </div>
-
                         <div class="p-8 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col text-white">
                              <span class="text-xs text-orange-400 font-bold uppercase tracking-widest mb-4">NVIDIA H100 x2</span>
                             <div class="text-5xl font-black text-orange-500 mb-6">$50,000+</div>
-                             <ul class="space-y-3 mb-8 text-sm">
-                                <li class="flex justify-between"><span>Memory</span> <strong>160GB</strong></li>
-                                <li class="flex justify-between text-orange-400 font-bold"><span>Networking</span> <strong>NVLink Req.</strong></li>
-                                <li class="flex justify-between"><span>Cluster Cost</span> <strong>Extreme</strong></li>
-                            </ul>
                             <div class="mt-auto px-4 py-2 bg-white/10 text-white rounded font-bold uppercase text-xs text-center">Enterprise Standard</div>
                         </div>
                     </div>
@@ -331,26 +280,37 @@
             const mainContent = document.getElementById('main-content');
             const tabButtons = document.querySelectorAll('.tab-btn');
             
-            // Update Tab Styling
             tabButtons.forEach(btn => {
                 const isSelected = btn.dataset.tab === state.activeTab;
-                if (btn.classList.contains('bg-orange-600')) return; // Ignore call-to-action button
-                
-                btn.classList.toggle('text-orange-600', isSelected);
-                btn.classList.toggle('border-orange-600', isSelected);
-                btn.classList.toggle('text-slate-600', !isSelected);
-                btn.classList.toggle('border-transparent', !isSelected);
+                // Style for desktop buttons (active underline)
+                if (!btn.classList.contains('w-full')) {
+                    btn.classList.toggle('text-orange-600', isSelected);
+                    btn.classList.toggle('border-orange-600', isSelected);
+                } else {
+                    // Style for mobile buttons (bolding)
+                    btn.classList.toggle('text-orange-600', isSelected);
+                    btn.classList.toggle('font-bold', isSelected);
+                }
             });
 
-            // Update Content
             mainContent.innerHTML = views[state.activeTab]();
         };
 
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
         // Event Delegation for Tabs
-        document.getElementById('nav-container').addEventListener('click', (e) => {
+        document.addEventListener('click', (e) => {
             const btn = e.target.closest('.tab-btn');
             if (btn) {
                 state.activeTab = btn.dataset.tab;
+                // Close mobile menu if open
+                mobileMenu.classList.add('hidden');
                 updateUI();
                 window.scrollTo({ top: 300, behavior: 'smooth' });
             }
@@ -363,3 +323,4 @@
     </script>
 </body>
 </html>
+
