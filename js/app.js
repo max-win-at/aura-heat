@@ -41,7 +41,7 @@ function app() {
             window.location.hash = pageName;
 
             try {
-                const response = await fetch(`${pageName}/index.html`);
+                const response = await fetch(`pages/${pageName}/index.html`);
                 if (!response.ok) throw new Error('Page not found');
 
                 const html = await response.text();
