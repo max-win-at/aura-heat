@@ -10,9 +10,29 @@ function app() {
         currentSubpageNav: null,
 
         init() {
+            // Handle GitHub Pages 404.html SPA fallback
+            // Check if we were redirected with a path query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirectedPath = urlParams.get('p');
+
+            if (redirectedPath) {
+                // Extract page name from path (e.g., "/aura-heat" -> "aura-heat")
+                const pageName = this.extractPageFromPath(redirectedPath);
+
+                // Clean up the URL using History API
+                const cleanUrl = window.location.origin + window.location.pathname +
+                    (pageName ? '#' + pageName : '');
+                window.history.replaceState(null, '', cleanUrl);
+
+                if (pageName) {
+                    this.loadPage(pageName);
+                    return;
+                }
+            }
+
             // Check URL hash for initial page
             const hash = window.location.hash.slice(1);
-            if (hash && (hash === 'aura-heat' || hash === 'tenstorrent')) {
+            if (hash && this.isValidPage(hash)) {
                 this.loadPage(hash);
             }
 
@@ -25,6 +45,35 @@ function app() {
                     this.goHome();
                 }
             });
+        },
+
+        /**
+         * Extract page name from a path like "/aura-heat" or "/pages/aura-heat"
+         */
+        extractPageFromPath(path) {
+            // Remove leading/trailing slashes
+            const cleanPath = path.replace(/^\/+|\/+$/g, '');
+
+            // Handle direct page paths like "aura-heat" or "tenstorrent"
+            if (this.isValidPage(cleanPath)) {
+                return cleanPath;
+            }
+
+            // Handle paths like "pages/aura-heat" or "pages/aura-heat/index.html"
+            const pagesMatch = cleanPath.match(/^pages\/([^\/]+)/);
+            if (pagesMatch && this.isValidPage(pagesMatch[1])) {
+                return pagesMatch[1];
+            }
+
+            return null;
+        },
+
+        /**
+         * Check if a page name is valid
+         */
+        isValidPage(pageName) {
+            const validPages = ['aura-heat', 'tenstorrent'];
+            return validPages.includes(pageName);
         },
 
         goHome() {
