@@ -1,603 +1,821 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA HEAT | Die Wärmewolke der Zukunft</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <style>
-        /* Custom Font Import if needed, using system fonts for speed/reliability */
-        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
-        .slide-in { animation: slideIn 0.5s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .chart-container { 
-            position: relative; 
-            width: 100%; 
-            max-width: 600px; 
-            margin-left: auto; 
-            margin-right: auto; 
-            height: 300px; 
-            max-height: 400px; 
-        }
-        @media (min-width: 768px) { .chart-container { height: 350px; } }
-        
-        /* Interactive Card Hover Effects */
-        .interactive-card { transition: all 0.3s ease; border-left: 4px solid transparent; }
-        .interactive-card:hover { transform: translateX(5px); border-left-color: #f97316; background-color: #fff7ed; }
-        .interactive-card.active { border-left-color: #ea580c; background-color: #ffedd5; }
-        
-        /* Smooth Scroll */
-        html { scroll-behavior: smooth; }
-    </style>
-    <!-- Chosen Palette: Warm Tech - Slate (Structure/Tech), Orange/Amber (Heat/Energy), Neutral Gray/White (Background) -->
-    <!-- Application Structure Plan:
-        1. Hero Section: Emotional hook ("Money earning heating").
-        2. Context Dashboard: The "Two Crises" (Heating & AI) - Interactive Toggle.
-        3. The Solution (Aura Core): Tech specs, "Altbau" advantage visualization (Heat Pump vs Aura).
-        4. Business Logic: Interactive Flowchart showing how revenue subsidizes heat.
-        5. Interactive Calculator: User inputs house size/type, gets 10-year cost comparison chart.
-        6. Stakeholder View: Tabs for Tenant, Landlord, SME.
-    -->
-    <!-- Visualization & Content Choices:
-        - Cost Comparison: Bar Chart (Chart.js) -> Clear winner visualization.
-        - Revenue Mix: Doughnut Chart (Chart.js) -> Shows diversity of income (AI, Crypto, Elastic).
-        - Efficiency Curve: Line Chart (Chart.js) -> Demonstrates Aura's advantage in cold weather vs Heat Pumps.
-        - Process Flow: HTML/CSS Grid with JS interaction -> Explains the complex business model simply.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-</head>
-<body class="bg-slate-50 text-slate-800">
+    <title>AURA HEAT | Intelligent Heating Infrastructure</title>
+    <meta name="description" content="AURA HEAT - Transforming server waste heat into sustainable heating solutions">
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
+
+    <!-- htmx -->
+    <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js"></script>
+
+    <style>
+        :root {
+            --color-slate-50: #f8fafc;
+            --color-slate-100: #f1f5f9;
+            --color-slate-200: #e2e8f0;
+            --color-slate-300: #cbd5e1;
+            --color-slate-400: #94a3b8;
+            --color-slate-500: #64748b;
+            --color-slate-600: #475569;
+            --color-slate-700: #334155;
+            --color-slate-800: #1e293b;
+            --color-slate-900: #0f172a;
+            --color-orange-400: #fb923c;
+            --color-orange-500: #f97316;
+            --color-orange-600: #ea580c;
+            --color-orange-700: #c2410c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--color-slate-50);
+            color: var(--color-slate-800);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .nav-container {
+            max-width: 80rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-slate-800);
+            letter-spacing: -0.05em;
+            text-decoration: none;
+        }
+
+        .logo-accent {
+            color: var(--color-orange-500);
+        }
+
+        /* Desktop Navigation */
+        .nav-desktop {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .nav-desktop {
+                display: flex;
+            }
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-slate-600);
+            background: transparent;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            color: var(--color-orange-600);
+            background: var(--color-slate-100);
+        }
+
+        .nav-btn.active {
+            color: var(--color-orange-600);
+            background: #fff7ed;
+        }
+
+        .nav-btn-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        /* Subpage nav items container */
+        #subpage-nav {
+            display: contents;
+        }
+
+        .subpage-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-slate-500);
+            background: transparent;
+            border: 1px solid var(--color-slate-200);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .subpage-nav-item:hover {
+            color: var(--color-orange-500);
+            border-color: var(--color-orange-300);
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--color-slate-600);
+            font-size: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--color-orange-600);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 4rem;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--color-slate-200);
+            padding: 1rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .mobile-menu.open {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-menu {
+                display: none !important;
+            }
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-slate-600);
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .mobile-nav-item:hover {
+            color: var(--color-orange-600);
+            background: var(--color-slate-100);
+        }
+
+        .mobile-nav-item.active {
+            color: var(--color-orange-600);
+            background: #fff7ed;
+        }
+
+        .mobile-nav-divider {
+            height: 1px;
+            background: var(--color-slate-200);
+            margin: 0.5rem 0;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-top: 4rem;
+        }
+
+        #main-content {
+            min-height: calc(100vh - 4rem - 8rem);
+        }
+
+        /* Loading State */
+        .htmx-request #main-content::before {
+            content: '';
+            position: fixed;
+            top: 4rem;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-orange-400), var(--color-orange-600));
+            animation: loading-bar 1s ease-in-out infinite;
+        }
+
+        @keyframes loading-bar {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Welcome Screen */
+        .welcome {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 4rem - 8rem);
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--color-slate-900) 0%, var(--color-slate-800) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: var(--color-orange-500);
+            opacity: 0.1;
+            transform: skewX(-12deg) translateX(20%);
+        }
+
+        .welcome-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(249, 115, 22, 0.2);
+            color: var(--color-orange-400);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+            letter-spacing: -0.025em;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (min-width: 768px) {
+            .welcome h1 {
+                font-size: 3.5rem;
+            }
+        }
+
+        .welcome h1 .brand-heat {
+            color: var(--color-orange-400);
+        }
+
+        .welcome p {
+            font-size: 1.125rem;
+            color: var(--color-slate-300);
+            max-width: 36rem;
+            line-height: 1.75;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+        }
+
+        .welcome-btn-primary {
+            background: var(--color-orange-600);
+            color: white;
+        }
+
+        .welcome-btn-primary:hover {
+            background: var(--color-orange-700);
+            box-shadow: 0 10px 15px -3px rgb(249 115 22 / 0.3);
+        }
+
+        .welcome-btn-secondary {
+            background: var(--color-slate-700);
+            color: white;
+            border: 1px solid var(--color-slate-600);
+        }
+
+        .welcome-btn-secondary:hover {
+            background: var(--color-slate-600);
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            border-top: 1px solid var(--color-slate-200);
+            padding: 2rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 80rem;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .footer-container {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer-logo {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--color-orange-600);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 900;
+            font-style: italic;
+            font-size: 0.875rem;
+        }
+
+        .footer-brand-text {
+            font-weight: 700;
+            color: var(--color-slate-800);
+            text-transform: uppercase;
+            letter-spacing: -0.025em;
+        }
+
+        .footer-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-meta {
+                text-align: right;
+            }
+        }
+
+        .footer-copyright {
+            font-size: 0.875rem;
+            color: var(--color-slate-500);
+        }
+
+        .footer-disclaimer {
+            font-size: 0.75rem;
+            color: var(--color-slate-400);
+            font-style: italic;
+        }
+
+        /* Slide-in animation */
+        .slide-in {
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body x-data="app()" x-init="init()">
     <!-- Navigation -->
-    <nav class="bg-white shadow-md fixed w-full z-50 top-0">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <span class="text-2xl font-bold text-slate-800 tracking-tighter">AURA<span class="text-orange-500">HEAT</span></span>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#vision" class="text-slate-600 hover:text-orange-600 font-medium transition">Vision</a>
-                    <a href="#tech" class="text-slate-600 hover:text-orange-600 font-medium transition">Technologie</a>
-                    <a href="#business" class="text-slate-600 hover:text-orange-600 font-medium transition">Business Case</a>
-                    <a href="#calculator" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition shadow-sm font-bold">Kostenrechner</a>
-                </div>
-                <!-- Mobile Menu Button (Simplified for SPA) -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-orange-600">☰</button>
-                </div>
+    <nav class="nav">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="#" class="logo" @click.prevent="goHome()">
+                AURA<span class="logo-accent">HEAT</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="nav-desktop">
+                <button class="nav-btn" :class="{ 'active': currentPage === 'aura-heat' }"
+                    @click="loadPage('aura-heat')">
+                    <svg class="nav-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M12 2c1 3 2.5 3.5 3.5 4.5A5 5 0 0 1 17 10a5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 1.5-3.5C9.5 5.5 11 5 12 2Z" />
+                        <path d="M12 15v7" />
+                        <path d="M8 22h8" />
+                    </svg>
+                    <span>AuraHeat</span>
+                </button>
+                <button class="nav-btn" :class="{ 'active': currentPage === 'tenstorrent' }"
+                    @click="loadPage('tenstorrent')">
+                    <svg class="nav-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+                        <rect x="9" y="9" width="6" height="6" />
+                        <line x1="9" y1="1" x2="9" y2="4" />
+                        <line x1="15" y1="1" x2="15" y2="4" />
+                        <line x1="9" y1="20" x2="9" y2="23" />
+                        <line x1="15" y1="20" x2="15" y2="23" />
+                        <line x1="20" y1="9" x2="23" y2="9" />
+                        <line x1="20" y1="14" x2="23" y2="14" />
+                        <line x1="1" y1="9" x2="4" y2="9" />
+                        <line x1="1" y1="14" x2="4" y2="14" />
+                    </svg>
+                    <span>Tenstorrent</span>
+                </button>
+
+                <!-- Subpage nav items will be injected here -->
+                <div id="subpage-nav"></div>
             </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" @click="mobileMenuOpen = !mobileMenuOpen">
+                <span x-text="mobileMenuOpen ? '✕' : '☰'"></span>
+            </button>
         </div>
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t p-4">
-            <a href="#vision" class="block py-2 text-slate-600">Vision</a>
-            <a href="#tech" class="block py-2 text-slate-600">Technologie</a>
-            <a href="#business" class="block py-2 text-slate-600">Business Case</a>
-            <a href="#calculator" class="block py-2 text-orange-600 font-bold">Kostenrechner</a>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" :class="{ 'open': mobileMenuOpen }">
+            <button class="mobile-nav-item" :class="{ 'active': currentPage === 'aura-heat' }"
+                @click="loadPage('aura-heat'); mobileMenuOpen = false">
+                <svg class="nav-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M12 2c1 3 2.5 3.5 3.5 4.5A5 5 0 0 1 17 10a5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 1.5-3.5C9.5 5.5 11 5 12 2Z" />
+                    <path d="M12 15v7" />
+                    <path d="M8 22h8" />
+                </svg>
+                <span>AuraHeat</span>
+            </button>
+            <button class="mobile-nav-item" :class="{ 'active': currentPage === 'tenstorrent' }"
+                @click="loadPage('tenstorrent'); mobileMenuOpen = false">
+                <svg class="nav-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+                    <rect x="9" y="9" width="6" height="6" />
+                    <line x1="9" y1="1" x2="9" y2="4" />
+                    <line x1="15" y1="1" x2="15" y2="4" />
+                    <line x1="9" y1="20" x2="9" y2="23" />
+                    <line x1="15" y1="20" x2="15" y2="23" />
+                    <line x1="20" y1="9" x2="23" y2="9" />
+                    <line x1="20" y1="14" x2="23" y2="14" />
+                    <line x1="1" y1="9" x2="4" y2="9" />
+                    <line x1="1" y1="14" x2="4" y2="14" />
+                </svg>
+                <span>Tenstorrent</span>
+            </button>
+
+            <!-- Mobile subpage nav items -->
+            <template x-if="subpageNavItems.length > 0">
+                <div>
+                    <div class="mobile-nav-divider"></div>
+                    <template x-for="item in subpageNavItems" :key="item.label">
+                        <button class="mobile-nav-item" @click="handleSubpageNav(item); mobileMenuOpen = false"
+                            x-html="item.icon + '<span>' + item.label + '</span>'"></button>
+                    </template>
+                </div>
+            </template>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="pt-32 pb-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-1/3 h-full bg-orange-500 opacity-10 skew-x-12 transform origin-top-right"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center md:text-left md:w-2/3">
-                <div class="inline-block px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm font-semibold mb-6 border border-orange-500/30">
-                    Die Energiewende im Heizungskeller
-                </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
-                    Ihre Heizung verdient Geld.<br>
-                    <span class="text-orange-400">Ihre Daten bleiben sicher.</span>
-                </h1>
-                <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
-                    AURA HEAT verwandelt Server-Abwärme in CO₂-arme Heizenergie. Wir bauen die erste dezentrale High-Performance-Cloud der Region – direkt in Ihrer Nachbarschaft.
+    <!-- Main Content -->
+    <main class="main">
+        <div id="main-content">
+            <!-- Welcome Screen (shown when no page loaded) -->
+            <div class="welcome slide-in" x-show="!currentPage">
+                <div class="welcome-badge">Intelligent Heating Infrastructure</div>
+                <h1>Welcome to AURA<span class="brand-heat">HEAT</span></h1>
+                <p>
+                    Transforming server waste heat into sustainable heating solutions.
+                    Explore our projects and discover how we're building the future of energy-efficient computing.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#calculator" class="px-8 py-4 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition font-bold text-center shadow-lg hover:shadow-orange-500/25">
-                        Ersparnis berechnen
-                    </a>
-                    <a href="#tech" class="px-8 py-4 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition font-medium text-center border border-slate-600">
-                        Wie es funktioniert
-                    </a>
+                <div class="welcome-cta">
+                    <button class="welcome-btn welcome-btn-primary" @click="loadPage('aura-heat')">
+                        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12 2c1 3 2.5 3.5 3.5 4.5A5 5 0 0 1 17 10a5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 1.5-3.5C9.5 5.5 11 5 12 2Z" />
+                            <path d="M12 15v7" />
+                            <path d="M8 22h8" />
+                        </svg>
+                        Explore AuraHeat
+                    </button>
+                    <button class="welcome-btn welcome-btn-secondary" @click="loadPage('tenstorrent')">
+                        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
+                            <rect x="9" y="9" width="6" height="6" />
+                        </svg>
+                        View Tenstorrent
+                    </button>
                 </div>
+            </div>
+
+            <!-- Loaded content will appear here -->
+            <div id="page-content" x-show="currentPage"></div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">AH</div>
+                <span class="footer-brand-text">Aura Heat</span>
+            </div>
+            <div class="footer-meta">
+                <div class="footer-copyright">© Aura Heat Project Group</div>
+                <div class="footer-disclaimer">Aided by AI</div>
             </div>
         </div>
-    </header>
-
-    <!-- Section 1: Context & Vision -->
-    <section id="vision" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">Zwei Krisen, Eine Lösung</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">
-                    Wir verbinden zwei massive Marktprobleme zu einer Synergie. Klicken Sie auf die Karten, um die Details zu verstehen.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Crisis 1 -->
-                <div class="interactive-card p-8 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer shadow-sm" onclick="toggleVision('crisis-heat')">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold text-slate-800">🔥 Die Wärmekrise</h3>
-                        <span class="text-2xl">📉</span>
-                    </div>
-                    <p class="text-slate-600">Explodierende Heizkosten, teure Wärmepumpen-Sanierungen und politische Unsicherheit belasten Mieter und Eigentümer.</p>
-                    <div id="crisis-heat-detail" class="hidden mt-4 pt-4 border-t border-slate-200 text-sm text-slate-700">
-                        <strong class="text-orange-600 block mb-2">Die AURA Lösung:</strong>
-                        Der AURA Core kostet in der Anschaffung weniger als 8.000 € (vs. 25k € für Wärmepumpen) und subventioniert die laufenden Kosten komplett.
-                    </div>
-                </div>
-
-                <!-- Crisis 2 -->
-                <div class="interactive-card p-8 rounded-xl bg-slate-50 border border-slate-200 cursor-pointer shadow-sm" onclick="toggleVision('crisis-ai')">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold text-slate-800">🤖 Die KI-Datenkrise</h3>
-                        <span class="text-2xl">🔒</span>
-                    </div>
-                    <p class="text-slate-600">KMUs brauchen KI-Infrastruktur, wollen ihre sensiblen Daten aber nicht an US-Hyperscaler übergeben. Lokale Lösungen fehlen.</p>
-                    <div id="crisis-ai-detail" class="hidden mt-4 pt-4 border-t border-slate-200 text-sm text-slate-700">
-                        <strong class="text-orange-600 block mb-2">Die AURA Lösung:</strong>
-                        Eine dezentrale Cloud in der Region. Daten bleiben physisch vor Ort. Infrastructure-as-a-Service für lokale KMUs.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 2: Technology (Altbau Focus) -->
-    <section id="tech" class="py-20 bg-slate-50 border-t border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                
-                <!-- Text Content -->
-                <div>
-                    <div class="text-orange-600 font-bold tracking-wide uppercase text-sm mb-2">Technologie</div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Der AURA Core: Mehr als eine Heizung</h2>
-                    <p class="text-slate-600 mb-6 text-lg">
-                        Keine Wärmepumpe, sondern eine <span class="font-bold text-slate-900">Hochtemperatur-Wärmequelle</span>. 
-                        Wärmepumpen scheitern im Altbau oft an den benötigten Vorlauftemperaturen. 
-                        Unsere Server-Prozessoren laufen naturgemäß heiß (bis 90°C) und liefern mühelos die für alte Heizkörper nötigen 70°C.
-                    </p>
-                    
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-start">
-                            <span class="text-orange-500 mr-2">✓</span>
-                            <div>
-                                <strong class="text-slate-800">Skalierbar:</strong> Modulares Design von 5 kW (Wohnung) bis 30 kW (Mehrfamilienhaus).
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-orange-500 mr-2">✓</span>
-                            <div>
-                                <strong class="text-slate-800">Altbau-Ready:</strong> Kein Austausch der Heizkörper nötig. Vorlauftemperatur bis 75°C.
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-orange-500 mr-2">✓</span>
-                            <div>
-                                <strong class="text-slate-800">Flüsterleise:</strong> Geschlossene Flüssigkeitskühlung ohne laute Lüfter.
-                            </div>
-                        </li>
-                    </ul>
-
-                    <!-- Unit Selector Buttons -->
-                    <div class="flex space-x-2 mb-6">
-                        <button onclick="updateTechSpec('S')" class="tech-btn px-4 py-2 rounded border border-slate-300 bg-white hover:bg-slate-100 focus:ring-2 focus:ring-orange-500 active">Core S (Wohnung)</button>
-                        <button onclick="updateTechSpec('M')" class="tech-btn px-4 py-2 rounded border border-slate-300 bg-white hover:bg-slate-100 focus:ring-2 focus:ring-orange-500">Core M (Haus)</button>
-                        <button onclick="updateTechSpec('XL')" class="tech-btn px-4 py-2 rounded border border-slate-300 bg-white hover:bg-slate-100 focus:ring-2 focus:ring-orange-500">Core XL (MFH)</button>
-                    </div>
-                    <div id="tech-spec-display" class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm text-sm">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>Heizleistung: <span class="font-bold text-slate-900">5 kW</span></div>
-                            <div>GPU Module: <span class="font-bold text-slate-900">5 Einheiten</span></div>
-                            <div>Zielgruppe: <span class="font-bold text-slate-900">Etagenwohnung (ca. 80m²)</span></div>
-                            <div>Amortisation: <span class="font-bold text-orange-600">~6 Monate</span></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chart Column -->
-                <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Warum AURA im Winter gewinnt</h3>
-                    <p class="text-sm text-slate-500 mb-6">Vergleich der Heizleistung bei sinkender Außentemperatur</p>
-                    
-                    <div class="chart-container">
-                        <canvas id="efficiencyChart"></canvas>
-                    </div>
-                    <p class="text-xs text-slate-400 mt-4 text-center">
-                        Während Wärmepumpen bei Minusgraden ineffizient werden (Stromverbrauch steigt massiv), liefert der AURA Core konstante Wärme aus Rechenleistung.
-                    </p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 3: Business Model Analysis -->
-    <section id="business" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Der Geldkreislauf</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto mt-4">
-                    Wie kann Heizen fast kostenlos sein? Weil die Wärme nur ein "Abfallprodukt" unseres eigentlichen Geschäfts ist: Infrastructure-as-a-Service.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12">
-                <!-- Interactive Flow Explanation -->
-                <div class="space-y-4">
-                    <h3 class="font-bold text-xl text-slate-800 mb-4">Das Finanz-Ökosystem</h3>
-                    
-                    <div onclick="highlightFlow(1)" class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-300 rounded-l"></div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-700">1. Die Investition</span>
-                            <span class="text-xs bg-slate-200 px-2 py-1 rounded">Start</span>
-                        </div>
-                        <p class="text-sm text-slate-600 mt-1">Kunde zahlt ~8.000€ (Sonderpreis) für Hardware im Wert von 60.000€.</p>
-                    </div>
-
-                    <div onclick="highlightFlow(2)" class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-300 rounded-l"></div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-700">2. Der Betrieb (Kosten)</span>
-                            <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">-2,40 € / Std</span>
-                        </div>
-                        <p class="text-sm text-slate-600 mt-1">Stromverbrauch für 8kW Leistung (ca. 30ct/kWh).</p>
-                    </div>
-
-                    <div onclick="highlightFlow(3)" class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-300 rounded-l"></div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-700">3. Die Einnahmen (Revenue)</span>
-                            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">+16,32 € / Std</span>
-                        </div>
-                        <p class="text-sm text-slate-600 mt-1">Verkauf von Rechenleistung (AI, Rendering, Mining).</p>
-                    </div>
-
-                    <div onclick="highlightFlow(4)" class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-l"></div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-orange-700">4. Der Gewinn & Subvention</span>
-                            <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded font-bold">= 13,92 € / Std</span>
-                        </div>
-                        <p class="text-sm text-slate-600 mt-1">Dieser Überschuss deckt die Stromrechnung des Kunden und amortisiert die Hardware in < 6 Monaten.</p>
-                    </div>
-                </div>
-
-                <!-- Revenue Mix Chart -->
-                <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 flex flex-col justify-center">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2 text-center">Einnahmen-Mix pro Stunde</h3>
-                    <div class="chart-container">
-                        <canvas id="revenueChart"></canvas>
-                    </div>
-                    <div class="mt-6 text-center text-sm text-slate-500">
-                        Diversifizierung sorgt für Stabilität: Wenn keine KI-Aufträge da sind, schürft das System automatisch Krypto (Mining).
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 4: Calculator -->
-    <section id="calculator" class="py-20 bg-slate-900 text-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-16">
-                
-                <!-- Inputs -->
-                <div>
-                    <h2 class="text-3xl font-bold text-white mb-6">Ihr 10-Jahres-Vergleich</h2>
-                    <p class="text-slate-400 mb-8">Berechnen Sie, wie AURA HEAT im Vergleich zu Gas, Pellets und Wärmepumpen abschneidet.</p>
-                    
-                    <div class="space-y-6 bg-slate-800 p-6 rounded-xl border border-slate-700">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Gebäudetyp</label>
-                            <select id="buildingType" class="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent transition" onchange="calculateSavings()">
-                                <option value="flat">Wohnung (80m²)</option>
-                                <option value="house" selected>Einfamilienhaus (150m²)</option>
-                                <option value="large">Mehrfamilienhaus (400m²)</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Aktuelle Heizkosten (€ pro Jahr)</label>
-                            <input type="range" id="currentCost" min="1000" max="10000" step="100" value="2500" class="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer accent-orange-500" oninput="updateRangeLabel(this.value); calculateSavings()">
-                            <div class="flex justify-between text-xs text-slate-400 mt-2">
-                                <span>1.000 €</span>
-                                <span id="costLabel" class="text-orange-400 font-bold">2.500 €</span>
-                                <span>10.000 €</span>
-                            </div>
-                        </div>
-
-                        <div class="p-4 bg-orange-900/30 border border-orange-500/30 rounded-lg">
-                            <div class="flex justify-between items-center">
-                                <span class="text-orange-200">Ihre geschätzte Ersparnis (10 Jahre):</span>
-                                <span id="totalSavingsDisplay" class="text-2xl font-bold text-orange-400">0 €</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Results Chart -->
-                <div>
-                    <div class="chart-container bg-slate-800 rounded-xl p-4 border border-slate-700">
-                        <canvas id="comparisonChart"></canvas>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 mt-6">
-                        <div class="p-4 bg-slate-800 rounded-lg border border-slate-700">
-                            <div class="text-xs text-slate-400">Wärmepumpe (10J)</div>
-                            <div id="hpCostDisplay" class="text-xl font-bold text-slate-200">~42.000 €</div>
-                        </div>
-                        <div class="p-4 bg-slate-800 rounded-lg border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
-                            <div class="text-xs text-orange-300">AURA HEAT (10J)</div>
-                            <div id="auraCostDisplay" class="text-xl font-bold text-orange-400">< 10.000 €</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer / Stakeholders -->
-    <section class="py-16 bg-white border-t border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-2xl font-bold text-slate-900 mb-10">Ein Ökosystem, bei dem jeder gewinnt</h2>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-6 bg-slate-50 rounded-xl">
-                    <div class="text-3xl mb-4">🏠</div>
-                    <h3 class="font-bold text-slate-800 mb-2">Hauseigentümer</h3>
-                    <p class="text-sm text-slate-600">Günstigste Heizlösung am Markt. Wertsteigerung der Immobilie. Unabhängigkeit von Gas.</p>
-                </div>
-                <div class="p-6 bg-slate-50 rounded-xl">
-                    <div class="text-3xl mb-4">🏢</div>
-                    <h3 class="font-bold text-slate-800 mb-2">Vermieter</h3>
-                    <p class="text-sm text-slate-600">"Heizkosten-Flatrate" als USP für Mieter. CO₂-Steuer-Ersparnis. Einfache Modernisierung.</p>
-                </div>
-                <div class="p-6 bg-slate-50 rounded-xl">
-                    <div class="text-3xl mb-4">💼</div>
-                    <h3 class="font-bold text-slate-800 mb-2">Regionale KMUs</h3>
-                    <p class="text-sm text-slate-600">Sichere, lokale KI-Cloud. Datensouveränität (kein US-Server). Elastische Rechenleistung.</p>
-                </div>
-            </div>
-            
-            <div class="mt-16">
-                <p class="text-slate-500 text-sm mb-4">© 2026 AURA HEAT. Alle Berechnungen sind Schätzungen basierend auf Marktpreisen von 2025.</p>
-            </div>
-        </div>
-    </section>
+    </footer>
 
     <script>
-        // --- State & Data ---
-        const specs = {
-            'S': { kw: '5 kW', modules: '5', target: 'Etagenwohnung (ca. 80m²)', invest: '< 6.000 €' },
-            'M': { kw: '8 kW', modules: '8', target: 'Einfamilienhaus (ca. 150m²)', invest: '< 8.000 €' },
-            'XL': { kw: '30 kW', modules: '30', target: 'Mehrfamilienhaus (ca. 400m²)', invest: 'Auf Anfrage' }
-        };
+        function app() {
+            return {
+                currentPage: null,
+                mobileMenuOpen: false,
+                subpageNavItems: [],
+                currentSubpageNav: null,
 
-        // --- Charts Initialization ---
-        let efficiencyChart, revenueChart, comparisonChart;
+                init() {
+                    // Check URL hash for initial page
+                    const hash = window.location.hash.slice(1);
+                    if (hash && (hash === 'aura-heat' || hash === 'tenstorrent')) {
+                        this.loadPage(hash);
+                    }
 
-        window.addEventListener('load', () => {
-            initEfficiencyChart();
-            initRevenueChart();
-            initComparisonChart();
-            calculateSavings(); // Initial calc
-        });
-
-        // 1. Efficiency Chart (Line)
-        function initEfficiencyChart() {
-            const ctx = document.getElementById('efficiencyChart').getContext('2d');
-            efficiencyChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['10°C', '5°C', '0°C', '-5°C', '-10°C', '-15°C'],
-                    datasets: [
-                        {
-                            label: 'AURA Core (Abwärme)',
-                            data: [100, 100, 100, 100, 100, 100], // Constant efficiency
-                            borderColor: '#f97316', // Orange-500
-                            backgroundColor: '#f97316',
-                            borderWidth: 3,
-                            tension: 0
-                        },
-                        {
-                            label: 'Luft-Wärmepumpe (Altbau)',
-                            data: [90, 80, 65, 50, 35, 20], // Drops in cold
-                            borderColor: '#94a3b8', // Slate-400
-                            backgroundColor: '#94a3b8',
-                            borderWidth: 2,
-                            borderDash: [5, 5],
-                            tension: 0.4
+                    // Listen for hash changes
+                    window.addEventListener('hashchange', () => {
+                        const newHash = window.location.hash.slice(1);
+                        if (newHash && newHash !== this.currentPage) {
+                            this.loadPage(newHash);
+                        } else if (!newHash) {
+                            this.goHome();
                         }
-                    ]
+                    });
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom' },
-                        tooltip: { 
-                            callbacks: {
-                                label: (context) => context.dataset.label + ': ' + context.raw + '% Effizienz'
+
+                goHome() {
+                    this.currentPage = null;
+                    this.subpageNavItems = [];
+                    this.currentSubpageNav = null;
+                    window.location.hash = '';
+                    document.getElementById('page-content').innerHTML = '';
+                    this.updateDesktopSubpageNav();
+                },
+
+                async loadPage(pageName) {
+                    this.currentPage = pageName;
+                    window.location.hash = pageName;
+
+                    try {
+                        const response = await fetch(`${pageName}/index.html`);
+                        if (!response.ok) throw new Error('Page not found');
+
+                        const html = await response.text();
+                        this.processPageContent(html, pageName);
+                    } catch (error) {
+                        console.error('Failed to load page:', error);
+                        document.getElementById('page-content').innerHTML = `
+                            <div class="welcome">
+                                <h1 style="color: var(--color-slate-700);">Page Not Found</h1>
+                                <p>Could not load ${pageName}/index.html</p>
+                                <button class="welcome-btn welcome-btn-primary" onclick="Alpine.store('app').goHome()">
+                                    Go Home
+                                </button>
+                            </div>
+                        `;
+                    }
+                },
+
+                processPageContent(html, pageName) {
+                    // Create a DOM parser
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    // Extract main content (look for main, #main-content, or body content)
+                    let mainContent = doc.querySelector('main') ||
+                        doc.querySelector('#main-content') ||
+                        doc.querySelector('body');
+
+                    // Also get header content if it exists (for hero sections)
+                    const header = doc.querySelector('header');
+
+                    // Build the content (combine header + main if both exist)
+                    let contentHtml = '';
+                    if (header) {
+                        contentHtml += header.outerHTML;
+                    }
+                    if (mainContent) {
+                        // If it's the body, get innerHTML, otherwise get outerHTML
+                        if (mainContent.tagName === 'BODY') {
+                            // Filter out nav and footer from body
+                            const nav = mainContent.querySelector('nav');
+                            const footer = mainContent.querySelector('footer');
+                            const scripts = mainContent.querySelectorAll('script');
+
+                            if (nav) nav.remove();
+                            if (footer) footer.remove();
+                            scripts.forEach(s => s.remove());
+
+                            contentHtml = mainContent.innerHTML;
+                        } else {
+                            contentHtml += mainContent.outerHTML;
+                        }
+                    }
+
+                    // Inject content
+                    const pageContent = document.getElementById('page-content');
+                    pageContent.innerHTML = contentHtml;
+                    pageContent.classList.add('slide-in');
+
+                    // Re-run any inline scripts from the loaded page
+                    const scripts = doc.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        if (script.src) {
+                            // External script - we may need to load it
+                            if (!document.querySelector(`script[src="${script.src}"]`)) {
+                                const newScript = document.createElement('script');
+                                newScript.src = script.src;
+                                document.body.appendChild(newScript);
+                            }
+                        } else if (script.textContent) {
+                            // Inline script - execute it
+                            try {
+                                const func = new Function(script.textContent);
+                                func();
+                            } catch (e) {
+                                console.warn('Script execution error:', e);
                             }
                         }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Effizienz / Leistung (%)' },
-                            grid: { color: '#f1f5f9' }
-                        },
-                        x: {
-                            title: { display: true, text: 'Außentemperatur' },
-                            grid: { display: false }
-                        }
-                    }
-                }
-            });
-        }
+                    });
 
-        // 2. Revenue Chart (Doughnut)
-        function initRevenueChart() {
-            const ctx = document.getElementById('revenueChart').getContext('2d');
-            revenueChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['KI-Hosting (B2B)', 'Elastic Compute', 'Crypto Mining (Leerlauf)'],
-                    datasets: [{
-                        data: [58, 30, 12], // Approximate based on deck numbers (9.60, 4.80, 1.92)
-                        backgroundColor: [
-                            '#ea580c', // Orange-600
-                            '#fb923c', // Orange-400
-                            '#cbd5e1'  // Slate-300
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'right' }
-                    }
-                }
-            });
-        }
+                    // Extract and process subpage navigation
+                    this.extractSubpageNav(doc, pageName);
 
-        // 3. Comparison Chart (Bar) - Updated by Calculator
-        function initComparisonChart() {
-            const ctx = document.getElementById('comparisonChart').getContext('2d');
-            comparisonChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Gastherme', 'Wärmepumpe', 'AURA HEAT'],
-                    datasets: [{
-                        label: 'Gesamtkosten über 10 Jahre (€)',
-                        data: [39000, 42500, 8000],
-                        backgroundColor: [
-                            '#64748b', // Slate-500
-                            '#94a3b8', // Slate-400
-                            '#f97316'  // Orange-500
-                        ],
-                        borderRadius: 6
-                    }]
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: (ctx) => `ca. ${ctx.raw.toLocaleString()} €`
+
+                extractSubpageNav(doc, pageName) {
+                    // Clear previous subpage nav
+                    this.subpageNavItems = [];
+
+                    // Look for navigation items in the loaded page
+                    const navContainer = doc.querySelector('#nav-container') ||
+                        doc.querySelector('nav .hidden.md\\:flex') ||
+                        doc.querySelector('nav');
+
+                    if (navContainer) {
+                        // Find buttons or links that look like tab navigation
+                        const navItems = navContainer.querySelectorAll('[data-tab], .tab-btn');
+
+                        navItems.forEach(item => {
+                            const label = item.textContent.trim();
+                            const tabId = item.dataset.tab || item.getAttribute('href');
+
+                            // Skip if it's defined in root nav already
+                            if (label.toLowerCase() === 'auraheat' || label.toLowerCase() === 'tenstorrent') {
+                                return;
                             }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: '#334155' },
-                            ticks: { color: '#94a3b8' }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#e2e8f0', font: { weight: 'bold' } }
-                        }
+
+                            this.subpageNavItems.push({
+                                label: label,
+                                tabId: tabId,
+                                page: pageName,
+                                icon: '<svg class="nav-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>'
+                            });
+                        });
+                    }
+
+                    this.updateDesktopSubpageNav();
+                },
+
+                updateDesktopSubpageNav() {
+                    const subpageNavContainer = document.getElementById('subpage-nav');
+                    if (!subpageNavContainer) return;
+
+                    if (this.subpageNavItems.length === 0) {
+                        subpageNavContainer.innerHTML = '';
+                        return;
+                    }
+
+                    const html = this.subpageNavItems.map(item => `
+                        <button class="subpage-nav-item" data-tab="${item.tabId}" onclick="document.body.__x.$data.handleSubpageNav(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                            ${item.icon}
+                            <span>${item.label}</span>
+                        </button>
+                    `).join('');
+
+                    subpageNavContainer.innerHTML = html;
+                },
+
+                handleSubpageNav(item) {
+                    // Dispatch a click event to the corresponding tab in the loaded page
+                    const tabBtn = document.querySelector(`#page-content [data-tab="${item.tabId}"]`);
+                    if (tabBtn) {
+                        tabBtn.click();
                     }
                 }
-            });
+            };
         }
-
-        // --- Interaction Logic ---
-
-        function toggleVision(id) {
-            // Hide all details first
-            document.getElementById('crisis-heat-detail').classList.add('hidden');
-            document.getElementById('crisis-ai-detail').classList.add('hidden');
-            
-            // Remove active class from cards
-            document.querySelectorAll('.interactive-card').forEach(el => el.classList.remove('active'));
-            
-            // Show selected
-            const detail = document.getElementById(id + '-detail');
-            detail.classList.remove('hidden');
-            detail.classList.add('slide-in');
-            
-            // Add active state to parent
-            event.currentTarget.classList.add('active');
-        }
-
-        function updateTechSpec(size) {
-            const buttons = document.querySelectorAll('.tech-btn');
-            buttons.forEach(btn => btn.classList.remove('active', 'bg-slate-100', 'ring-2', 'ring-orange-500'));
-            event.currentTarget.classList.add('active', 'bg-slate-100', 'ring-2', 'ring-orange-500');
-
-            const data = specs[size];
-            const html = `
-                <div class="grid grid-cols-2 gap-4 slide-in">
-                    <div>Heizleistung: <span class="font-bold text-slate-900">${data.kw}</span></div>
-                    <div>Module: <span class="font-bold text-slate-900">${data.modules} Einheiten</span></div>
-                    <div>Zielgruppe: <span class="font-bold text-slate-900">${data.target}</span></div>
-                    <div>Invest (ca.): <span class="font-bold text-orange-600">${data.invest}</span></div>
-                </div>
-            `;
-            document.getElementById('tech-spec-display').innerHTML = html;
-        }
-
-        function highlightFlow(step) {
-            // Visual feedback for flow steps (could expand to show more detail)
-            const steps = document.querySelectorAll('.flow-step');
-            steps.forEach(s => s.classList.remove('bg-orange-50', 'border-orange-400'));
-            steps[step-1].classList.add('bg-orange-50', 'border-orange-400');
-        }
-
-        function updateRangeLabel(val) {
-            document.getElementById('costLabel').innerText = parseInt(val).toLocaleString() + ' €';
-        }
-
-        function calculateSavings() {
-            const type = document.getElementById('buildingType').value;
-            const currentAnnualCost = parseInt(document.getElementById('currentCost').value);
-            
-            // Base Assumptions for 10 years
-            // Gas: Install 12k + 10 * currentAnnualCost + Maintenance 2k
-            // HP: Install 25k + (0.7 * currentAnnualCost [efficiency gain]) * 10 + Maintenance 1.5k
-            // Aura: Install 8k (approx) + 0 Energy + 0 Maintenance
-            
-            let installGas = 12000;
-            let installHP = 25000;
-            let installAura = 8000;
-            
-            if (type === 'flat') { installGas = 8000; installHP = 18000; installAura = 5000; }
-            if (type === 'large') { installGas = 18000; installHP = 40000; installAura = 15000; }
-
-            const gasTotal = installGas + (currentAnnualCost * 10) + 2000;
-            
-            // HP efficiency assumption: costs about 60-70% of gas usually, but high install
-            const hpTotal = installHP + (currentAnnualCost * 0.7 * 10) + 1500;
-            
-            const auraTotal = installAura; // Energy & Maintenance covered by subsidy
-
-            const saving = Math.max(gasTotal, hpTotal) - auraTotal;
-
-            // Update DOM
-            document.getElementById('totalSavingsDisplay').innerText = saving.toLocaleString() + ' €';
-            document.getElementById('hpCostDisplay').innerText = '~' + hpTotal.toLocaleString() + ' €';
-            document.getElementById('auraCostDisplay').innerText = '< ' + auraTotal.toLocaleString() + ' €';
-
-            // Update Chart
-            comparisonChart.data.datasets[0].data = [gasTotal, hpTotal, auraTotal];
-            comparisonChart.update();
-        }
-
-        // Mobile Menu Toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-
     </script>
 </body>
+
 </html>
