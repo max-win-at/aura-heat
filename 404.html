@@ -6,21 +6,41 @@
     <title>Redirecting...</title>
     <script>
         // GitHub Pages 404.html SPA Fallback
-        // Converts the path to a query parameter and redirects to index.html
-        // The SPA then reads the query parameter and navigates to the correct page
+        // This handles project sites where the base path is /repo-name/
 
-        const path = window.location.pathname;
-        const query = window.location.search;
-        const hash = window.location.hash;
+        (function () {
+            const path = window.location.pathname;
+            const hash = window.location.hash;
 
-        // Build redirect URL with path encoded as query parameter
-        // Example: /aura-heat → /?p=/aura-heat
-        const redirectUrl = window.location.origin + '/?p=' + encodeURIComponent(path) +
-            (query ? '&q=' + encodeURIComponent(query) : '') +
-            (hash ? hash : '');
+            // Detect the base path (repo name) from the URL
+            // For GitHub Pages project sites: /aura-heat/...
+            // The base path is the first segment
+            const pathSegments = path.split('/').filter(Boolean);
 
-        // Redirect immediately
-        window.location.replace(redirectUrl);
+            if (pathSegments.length === 0) {
+                // Already at root, nothing to do
+                return;
+            }
+
+            // First segment is the repo/project name (base path)
+            const basePath = '/' + pathSegments[0] + '/';
+
+            // Remaining segments are what we need to route
+            const routePath = pathSegments.slice(1).join('/');
+
+            if (!routePath) {
+                // No additional path, already at base - just go to index
+                window.location.replace(basePath);
+                return;
+            }
+
+            // Build redirect URL: base path + query parameter with the route
+            // Example: /aura-heat/tenstorrent → /aura-heat/?p=tenstorrent
+            const redirectUrl = window.location.origin + basePath + '?p=' + encodeURIComponent(routePath) +
+                (hash ? hash : '');
+
+            window.location.replace(redirectUrl);
+        })();
     </script>
 </head>
 

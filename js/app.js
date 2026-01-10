@@ -11,12 +11,12 @@ function app() {
 
         init() {
             // Handle GitHub Pages 404.html SPA fallback
-            // Check if we were redirected with a path query parameter
+            // 404.html sends just the route path relative to base (e.g., "tenstorrent" or "aura-heat")
             const urlParams = new URLSearchParams(window.location.search);
             const redirectedPath = urlParams.get('p');
 
             if (redirectedPath) {
-                // Extract page name from path (e.g., "/aura-heat" -> "aura-heat")
+                // Extract page name from the route path
                 const pageName = this.extractPageFromPath(redirectedPath);
 
                 // Clean up the URL using History API
