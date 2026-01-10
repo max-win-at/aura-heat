@@ -71,559 +71,563 @@
     </style>
 </head>
 
-<body x-data="auraHeatPage()" class="bg-slate-50 text-slate-800">
-    <!-- Navigation (for standalone view) -->
-    <nav class="nav">
-        <div class="nav-container">
-            <a href="../../index.html" class="logo">
-                AURA<span class="logo-accent">HEAT</span>
-            </a>
-            <div class="nav-desktop" id="nav-container">
-                <button @click="scrollTo('vision')" data-tab="vision" class="nav-btn">Vision</button>
-                <button @click="scrollTo('tech')" data-tab="tech" class="nav-btn">Technologie</button>
-                <button @click="scrollTo('business')" data-tab="business" class="nav-btn">Business Case</button>
-                <button @click="scrollTo('calculator')" data-tab="calculator" class="nav-btn"
-                    style="background: var(--color-orange-600); color: white; border-radius: 0.5rem;">Kostenrechner</button>
-            </div>
-            <button class="mobile-menu-btn" @click="mobileMenuOpen = !mobileMenuOpen">
-                <span x-text="mobileMenuOpen ? '✕' : '☰'"></span>
-            </button>
-        </div>
-        <div class="mobile-menu" :class="{ 'open': mobileMenuOpen }">
-            <button @click="scrollTo('vision'); mobileMenuOpen = false" data-tab="vision"
-                class="mobile-nav-item">Vision</button>
-            <button @click="scrollTo('tech'); mobileMenuOpen = false" data-tab="tech"
-                class="mobile-nav-item">Technologie</button>
-            <button @click="scrollTo('business'); mobileMenuOpen = false" data-tab="business"
-                class="mobile-nav-item">Business Case</button>
-            <button @click="scrollTo('calculator'); mobileMenuOpen = false" data-tab="calculator"
-                class="mobile-nav-item" style="color: var(--color-orange-600); font-weight: 700;">Kostenrechner</button>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="pt-32 pb-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-1/3 h-full bg-orange-500 opacity-10 skew-x-12 transform origin-top-right">
-        </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center md:text-left md:w-2/3">
-                <div
-                    class="inline-block px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm font-semibold mb-6 border border-orange-500/30">
-                    Die Energiewende im Heizungskeller
+<body class="bg-slate-50 text-slate-800">
+    <div x-data="auraHeatPage()" id="aura-heat-page">
+        <!-- Navigation (for standalone view) -->
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="../../index.html" class="logo">
+                    AURA<span class="logo-accent">HEAT</span>
+                </a>
+                <div class="nav-desktop" id="nav-container">
+                    <button @click="scrollTo('vision')" data-tab="vision" class="nav-btn">Vision</button>
+                    <button @click="scrollTo('tech')" data-tab="tech" class="nav-btn">Technologie</button>
+                    <button @click="scrollTo('business')" data-tab="business" class="nav-btn">Business Case</button>
+                    <button @click="scrollTo('calculator')" data-tab="calculator" class="nav-btn"
+                        style="background: var(--color-orange-600); color: white; border-radius: 0.5rem;">Kostenrechner</button>
                 </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
-                    Ihre Heizung verdient Geld.<br>
-                    <span class="text-orange-400">Ihre Daten bleiben sicher.</span>
-                </h1>
-                <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
-                    AURA HEAT verwandelt Server-Abwärme in CO₂-arme Heizenergie. Wir bauen die erste dezentrale
-                    High-Performance-Cloud der Region – direkt in Ihrer Nachbarschaft.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#calculator"
-                        class="px-8 py-4 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition font-bold text-center shadow-lg hover:shadow-orange-500/25">
-                        Ersparnis berechnen
-                    </a>
-                    <a href="#tech"
-                        class="px-8 py-4 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition font-medium text-center border border-slate-600">
-                        Wie es funktioniert
-                    </a>
-                </div>
+                <button class="mobile-menu-btn" @click="mobileMenuOpen = !mobileMenuOpen">
+                    <span x-text="mobileMenuOpen ? '✕' : '☰'"></span>
+                </button>
             </div>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="main-content">
-        <!-- Section 1: Context & Vision -->
-        <section id="vision" class="py-20">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4">Zwei Krisen, Eine Lösung</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">
-                    Wir verbinden zwei massive Marktprobleme zu einer Synergie. Klicken Sie auf die Karten, um die
-                    Details zu verstehen.
-                </p>
+            <div class="mobile-menu" :class="{ 'open': mobileMenuOpen }">
+                <button @click="scrollTo('vision'); mobileMenuOpen = false" data-tab="vision"
+                    class="mobile-nav-item">Vision</button>
+                <button @click="scrollTo('tech'); mobileMenuOpen = false" data-tab="tech"
+                    class="mobile-nav-item">Technologie</button>
+                <button @click="scrollTo('business'); mobileMenuOpen = false" data-tab="business"
+                    class="mobile-nav-item">Business Case</button>
+                <button @click="scrollTo('calculator'); mobileMenuOpen = false" data-tab="calculator"
+                    class="mobile-nav-item"
+                    style="color: var(--color-orange-600); font-weight: 700;">Kostenrechner</button>
             </div>
+        </nav>
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Crisis 1 -->
-                <div class="interactive-card p-8 rounded-xl bg-white border border-slate-200 cursor-pointer shadow-sm"
-                    :data-active="activeVision === 'heat'"
-                    @click="activeVision = activeVision === 'heat' ? null : 'heat'">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold text-slate-800">🔥 Die Wärmekrise</h3>
-                        <span class="text-2xl">📉</span>
-                    </div>
-                    <p class="text-slate-600">Explodierende Heizkosten, teure Wärmepumpen-Sanierungen und politische
-                        Unsicherheit belasten Mieter und Eigentümer.</p>
-                    <div x-show="activeVision === 'heat'" x-transition
-                        class="mt-4 pt-4 border-t border-slate-200 text-sm text-slate-700 slide-in">
-                        <strong class="text-orange-600 block mb-2">Die AURA Lösung:</strong>
-                        Der AURA Core kostet in der Anschaffung weniger als 8.000 € (vs. 25k € für Wärmepumpen) und
-                        subventioniert die laufenden Kosten komplett.
-                    </div>
-                </div>
-
-                <!-- Crisis 2 -->
-                <div class="interactive-card p-8 rounded-xl bg-white border border-slate-200 cursor-pointer shadow-sm"
-                    :data-active="activeVision === 'ai'" @click="activeVision = activeVision === 'ai' ? null : 'ai'">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl font-bold text-slate-800">🤖 Die KI-Datenkrise</h3>
-                        <span class="text-2xl">🔒</span>
-                    </div>
-                    <p class="text-slate-600">KMUs brauchen KI-Infrastruktur, wollen ihre sensiblen Daten aber nicht an
-                        US-Hyperscaler übergeben. Lokale Lösungen fehlen.</p>
-                    <div x-show="activeVision === 'ai'" x-transition
-                        class="mt-4 pt-4 border-t border-slate-200 text-sm text-slate-700 slide-in">
-                        <strong class="text-orange-600 block mb-2">Die AURA Lösung:</strong>
-                        Eine dezentrale Cloud in der Region. Daten bleiben physisch vor Ort. Infrastructure-as-a-Service
-                        für lokale KMUs.
-                    </div>
-                </div>
+        <!-- Hero Section -->
+        <header class="pt-32 pb-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden">
+            <div
+                class="absolute top-0 right-0 w-1/3 h-full bg-orange-500 opacity-10 skew-x-12 transform origin-top-right">
             </div>
-        </section>
-
-        <!-- Section 2: Technology (Altbau Focus) -->
-        <section id="tech" class="py-20 border-t border-slate-200">
-            <div class="grid lg:grid-cols-2 gap-12 items-start">
-
-                <!-- Text Content -->
-                <div>
-                    <div class="text-orange-600 font-bold tracking-wide uppercase text-sm mb-2">Technologie</div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Der AURA Core: Mehr als eine Heizung
-                    </h2>
-                    <p class="text-slate-600 mb-6 text-lg">
-                        Keine Wärmepumpe, sondern eine <span
-                            class="font-bold text-slate-900">Hochtemperatur-Wärmequelle</span>.
-                        Wärmepumpen scheitern im Altbau oft an den benötigten Vorlauftemperaturen.
-                        Unsere Server-Prozessoren laufen naturgemäß heiß (bis 90°C) und liefern mühelos die für alte
-                        Heizkörper nötigen 70°C.
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center md:text-left md:w-2/3">
+                    <div
+                        class="inline-block px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm font-semibold mb-6 border border-orange-500/30">
+                        Die Energiewende im Heizungskeller
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+                        Ihre Heizung verdient Geld.<br>
+                        <span class="text-orange-400">Ihre Daten bleiben sicher.</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
+                        AURA HEAT verwandelt Server-Abwärme in CO₂-arme Heizenergie. Wir bauen die erste dezentrale
+                        High-Performance-Cloud der Region – direkt in Ihrer Nachbarschaft.
                     </p>
-
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-start">
-                            <span class="text-orange-500 mr-2">✓</span>
-                            <div>
-                                <strong class="text-slate-800">Skalierbar:</strong> Modulares Design von 5 kW (Wohnung)
-                                bis 30 kW (Mehrfamilienhaus).
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-orange-500 mr-2">✓</span>
-                            <div>
-                                <strong class="text-slate-800">Altbau-Ready:</strong> Kein Austausch der Heizkörper
-                                nötig. Vorlauftemperatur bis 75°C.
-                            </div>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-orange-500 mr-2">✓</span>
-                            <div>
-                                <strong class="text-slate-800">Flüsterleise:</strong> Geschlossene Flüssigkeitskühlung
-                                ohne laute Lüfter.
-                            </div>
-                        </li>
-                    </ul>
-
-                    <!-- Unit Selector Buttons -->
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <button @click="selectedSpec = 'S'" :data-active="selectedSpec === 'S'"
-                            class="tech-btn px-4 py-2 rounded border border-slate-300 bg-white hover:bg-slate-100 transition">
-                            Core S (Wohnung)
-                        </button>
-                        <button @click="selectedSpec = 'M'" :data-active="selectedSpec === 'M'"
-                            class="tech-btn px-4 py-2 rounded border border-slate-300 bg-white hover:bg-slate-100 transition">
-                            Core M (Haus)
-                        </button>
-                        <button @click="selectedSpec = 'XL'" :data-active="selectedSpec === 'XL'"
-                            class="tech-btn px-4 py-2 rounded border border-slate-300 bg-white hover:bg-slate-100 transition">
-                            Core XL (MFH)
-                        </button>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#calculator"
+                            class="px-8 py-4 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition font-bold text-center shadow-lg hover:shadow-orange-500/25">
+                            Ersparnis berechnen
+                        </a>
+                        <a href="#tech"
+                            class="px-8 py-4 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition font-medium text-center border border-slate-600">
+                            Wie es funktioniert
+                        </a>
                     </div>
-                    <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm text-sm slide-in">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>Heizleistung: <span class="font-bold text-slate-900"
-                                    x-text="specs[selectedSpec].kw"></span></div>
-                            <div>GPU Module: <span class="font-bold text-slate-900"
-                                    x-text="specs[selectedSpec].modules + ' Einheiten'"></span></div>
-                            <div>Zielgruppe: <span class="font-bold text-slate-900"
-                                    x-text="specs[selectedSpec].target"></span></div>
-                            <div>Invest (ca.): <span class="font-bold text-orange-600"
-                                    x-text="specs[selectedSpec].invest"></span></div>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="main-content">
+            <!-- Section 1: Context & Vision -->
+            <section id="vision" class="py-20">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">Zwei Krisen, Eine Lösung</h2>
+                    <p class="text-slate-600 max-w-2xl mx-auto">
+                        Wir verbinden zwei massive Marktprobleme zu einer Synergie. Klicken Sie auf die Karten, um die
+                        Details zu verstehen.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Crisis 1 -->
+                    <div class="interactive-card p-8 rounded-xl bg-white border border-slate-200 cursor-pointer shadow-sm"
+                        :data-active="activeVision === 'heat'"
+                        @click="activeVision = activeVision === 'heat' ? null : 'heat'">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-slate-800">🔥 Die Wärmekrise</h3>
+                            <span class="text-2xl">📉</span>
+                        </div>
+                        <p class="text-slate-600">Explodierende Heizkosten, teure Wärmepumpen-Sanierungen und politische
+                            Unsicherheit belasten Mieter und Eigentümer.</p>
+                        <div x-show="activeVision === 'heat'" x-transition
+                            class="mt-4 pt-4 border-t border-slate-200 text-sm text-slate-700 slide-in">
+                            <strong class="text-orange-600 block mb-2">Die AURA Lösung:</strong>
+                            Der AURA Core kostet in der Anschaffung weniger als 8.000 € (vs. 25k € für Wärmepumpen) und
+                            subventioniert die laufenden Kosten komplett.
+                        </div>
+                    </div>
+
+                    <!-- Crisis 2 -->
+                    <div class="interactive-card p-8 rounded-xl bg-white border border-slate-200 cursor-pointer shadow-sm"
+                        :data-active="activeVision === 'ai'"
+                        @click="activeVision = activeVision === 'ai' ? null : 'ai'">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-slate-800">🤖 Die KI-Datenkrise</h3>
+                            <span class="text-2xl">🔒</span>
+                        </div>
+                        <p class="text-slate-600">KMUs brauchen KI-Infrastruktur, wollen ihre sensiblen Daten aber nicht
+                            an
+                            US-Hyperscaler übergeben. Lokale Lösungen fehlen.</p>
+                        <div x-show="activeVision === 'ai'" x-transition
+                            class="mt-4 pt-4 border-t border-slate-200 text-sm text-slate-700 slide-in">
+                            <strong class="text-orange-600 block mb-2">Die AURA Lösung:</strong>
+                            Eine dezentrale Cloud in der Region. Daten bleiben physisch vor Ort.
+                            Infrastructure-as-a-Service
+                            für lokale KMUs.
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Efficiency Visualization (CSS-based, no Chart.js) -->
-                <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Warum AURA im Winter gewinnt</h3>
-                    <p class="text-sm text-slate-500 mb-6">Vergleich der Heizleistung bei sinkender Außentemperatur</p>
+            <!-- Section 2: Technology (Altbau Focus) -->
+            <section id="tech" class="py-20 border-t border-slate-200">
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
 
-                    <div class="space-y-4">
-                        <template x-for="(temp, index) in efficiencyData" :key="index">
-                            <div class="text-sm">
-                                <div class="flex justify-between mb-1">
-                                    <span class="text-slate-600" x-text="temp.label"></span>
-                                    <div class="flex gap-4 text-xs">
-                                        <span class="text-orange-600 font-semibold">AURA: <span
-                                                x-text="temp.aura + '%'"></span></span>
-                                        <span class="text-slate-400">WP: <span
-                                                x-text="temp.heatpump + '%'"></span></span>
-                                    </div>
+                    <!-- Text Content -->
+                    <div>
+                        <div class="text-orange-600 font-bold tracking-wide uppercase text-sm mb-2">Technologie</div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Der AURA Core: Mehr als eine
+                            Heizung
+                        </h2>
+                        <p class="text-slate-600 mb-6 text-lg">
+                            Keine Wärmepumpe, sondern eine <span
+                                class="font-bold text-slate-900">Hochtemperatur-Wärmequelle</span>.
+                            Wärmepumpen scheitern im Altbau oft an den benötigten Vorlauftemperaturen.
+                            Unsere Server-Prozessoren laufen naturgemäß heiß (bis 90°C) und liefern mühelos die für alte
+                            Heizkörper nötigen 70°C.
+                        </p>
+
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start">
+                                <span class="text-orange-500 mr-2">✓</span>
+                                <div>
+                                    <strong class="text-slate-800">Skalierbar:</strong> Modulares Design von 5 kW
+                                    (Wohnung)
+                                    bis 30 kW (Mehrfamilienhaus).
                                 </div>
-                                <div class="flex gap-2">
-                                    <div class="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
-                                        <div class="efficiency-bar bg-orange-500" :style="'width:' + temp.aura + '%'">
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-orange-500 mr-2">✓</span>
+                                <div>
+                                    <strong class="text-slate-800">Altbau-Ready:</strong> Kein Austausch der Heizkörper
+                                    nötig. Vorlauftemperatur bis 75°C.
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-orange-500 mr-2">✓</span>
+                                <div>
+                                    <strong class="text-slate-800">Flüsterleise:</strong> Geschlossene
+                                    Flüssigkeitskühlung
+                                    ohne laute Lüfter.
+                                </div>
+                            </li>
+                        </ul>
+
+                        <!-- Unit Selector Buttons -->
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <button @click="selectedSpec = 'S'" :data-active="selectedSpec === 'S'"
+                                class="tech-btn px-4 py-2 rounded border border-slate-300 bg-white hover:bg-slate-100 transition">
+                                Core S (Wohnung)
+                            </button>
+                            <button @click="selectedSpec = 'M'" :data-active="selectedSpec === 'M'"
+                                class="tech-btn px-4 py-2 rounded border border-slate-300 bg-white hover:bg-slate-100 transition">
+                                Core M (Haus)
+                            </button>
+                            <button @click="selectedSpec = 'XL'" :data-active="selectedSpec === 'XL'"
+                                class="tech-btn px-4 py-2 rounded border border-slate-300 bg-white hover:bg-slate-100 transition">
+                                Core XL (MFH)
+                            </button>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm text-sm slide-in">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>Heizleistung: <span class="font-bold text-slate-900"
+                                        x-text="specs[selectedSpec].kw"></span></div>
+                                <div>GPU Module: <span class="font-bold text-slate-900"
+                                        x-text="specs[selectedSpec].modules + ' Einheiten'"></span></div>
+                                <div>Zielgruppe: <span class="font-bold text-slate-900"
+                                        x-text="specs[selectedSpec].target"></span></div>
+                                <div>Invest (ca.): <span class="font-bold text-orange-600"
+                                        x-text="specs[selectedSpec].invest"></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Efficiency Visualization (CSS-based, no Chart.js) -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">Warum AURA im Winter gewinnt</h3>
+                        <p class="text-sm text-slate-500 mb-6">Vergleich der Heizleistung bei sinkender Außentemperatur
+                        </p>
+
+                        <div class="space-y-4">
+                            <template x-for="(temp, index) in efficiencyData" :key="index">
+                                <div class="text-sm">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-600" x-text="temp.label"></span>
+                                        <div class="flex gap-4 text-xs">
+                                            <span class="text-orange-600 font-semibold">AURA: <span
+                                                    x-text="temp.aura + '%'"></span></span>
+                                            <span class="text-slate-400">WP: <span
+                                                    x-text="temp.heatpump + '%'"></span></span>
                                         </div>
                                     </div>
-                                    <div class="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
-                                        <div class="efficiency-bar bg-slate-400"
-                                            :style="'width:' + temp.heatpump + '%'"></div>
+                                    <div class="flex gap-2">
+                                        <div class="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
+                                            <div class="efficiency-bar bg-orange-500"
+                                                :style="'width:' + temp.aura + '%'">
+                                            </div>
+                                        </div>
+                                        <div class="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
+                                            <div class="efficiency-bar bg-slate-400"
+                                                :style="'width:' + temp.heatpump + '%'"></div>
+                                        </div>
                                     </div>
                                 </div>
+                            </template>
+                        </div>
+
+                        <div class="mt-6 flex gap-4 text-xs">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                                <span class="text-slate-600">AURA Core (Abwärme)</span>
                             </div>
-                        </template>
-                    </div>
-
-                    <div class="mt-6 flex gap-4 text-xs">
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-orange-500"></div>
-                            <span class="text-slate-600">AURA Core (Abwärme)</span>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-slate-400"></div>
+                                <span class="text-slate-600">Luft-Wärmepumpe (Altbau)</span>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 rounded-full bg-slate-400"></div>
-                            <span class="text-slate-600">Luft-Wärmepumpe (Altbau)</span>
-                        </div>
-                    </div>
 
-                    <p class="text-xs text-slate-400 mt-4 text-center">
-                        Während Wärmepumpen bei Minusgraden ineffizient werden, liefert der AURA Core konstante Wärme
-                        aus Rechenleistung.
+                        <p class="text-xs text-slate-400 mt-4 text-center">
+                            Während Wärmepumpen bei Minusgraden ineffizient werden, liefert der AURA Core konstante
+                            Wärme
+                            aus Rechenleistung.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Business Model Analysis -->
+            <section id="business" class="py-20 border-t border-slate-200">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900">Der Geldkreislauf</h2>
+                    <p class="text-slate-600 max-w-2xl mx-auto mt-4">
+                        Wie kann Heizen fast kostenlos sein? Weil die Wärme nur ein "Abfallprodukt" unseres eigentlichen
+                        Geschäfts ist: Infrastructure-as-a-Service.
                     </p>
                 </div>
-            </div>
-        </section>
 
-        <!-- Section 3: Business Model Analysis -->
-        <section id="business" class="py-20 border-t border-slate-200">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Der Geldkreislauf</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto mt-4">
-                    Wie kann Heizen fast kostenlos sein? Weil die Wärme nur ein "Abfallprodukt" unseres eigentlichen
-                    Geschäfts ist: Infrastructure-as-a-Service.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12">
-                <!-- Interactive Flow Explanation -->
-                <div class="space-y-4">
-                    <h3 class="font-bold text-xl text-slate-800 mb-4">Das Finanz-Ökosystem</h3>
-
-                    <div @click="activeFlow = 1" :data-active="activeFlow === 1"
-                        class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-300 rounded-l"></div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-700">1. Die Investition</span>
-                            <span class="text-xs bg-slate-200 px-2 py-1 rounded">Start</span>
-                        </div>
-                        <p class="text-sm text-slate-600 mt-1">Kunde zahlt ~8.000€ (Sonderpreis) für Hardware im Wert
-                            von 60.000€.</p>
-                    </div>
-
-                    <div @click="activeFlow = 2" :data-active="activeFlow === 2"
-                        class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-300 rounded-l"></div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-700">2. Der Betrieb (Kosten)</span>
-                            <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">-2,40 € / Std</span>
-                        </div>
-                        <p class="text-sm text-slate-600 mt-1">Stromverbrauch für 8kW Leistung (ca. 30ct/kWh).</p>
-                    </div>
-
-                    <div @click="activeFlow = 3" :data-active="activeFlow === 3"
-                        class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-300 rounded-l"></div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-slate-700">3. Die Einnahmen (Revenue)</span>
-                            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">+16,32 € / Std</span>
-                        </div>
-                        <p class="text-sm text-slate-600 mt-1">Verkauf von Rechenleistung (AI, Rendering, Mining).</p>
-                    </div>
-
-                    <div @click="activeFlow = 4" :data-active="activeFlow === 4"
-                        class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-l"></div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-orange-700">4. Der Gewinn & Subvention</span>
-                            <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded font-bold">= 13,92 € /
-                                Std</span>
-                        </div>
-                        <p class="text-sm text-slate-600 mt-1">Dieser Überschuss deckt die Stromrechnung des Kunden und
-                            amortisiert die Hardware in < 6 Monaten.</p>
-                    </div>
-                </div>
-
-                <!-- Revenue Mix (CSS-based pie chart alternative) -->
-                <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 flex flex-col justify-center">
-                    <h3 class="text-lg font-bold text-slate-800 mb-6 text-center">Einnahmen-Mix pro Stunde</h3>
-
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- Interactive Flow Explanation -->
                     <div class="space-y-4">
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-sm text-slate-700 font-medium">KI-Hosting (B2B)</span>
-                                <span class="text-sm font-bold text-orange-600">58% (9,60 €)</span>
+                        <h3 class="font-bold text-xl text-slate-800 mb-4">Das Finanz-Ökosystem</h3>
+
+                        <div @click="activeFlow = 1" :data-active="activeFlow === 1"
+                            class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-300 rounded-l"></div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-slate-700">1. Die Investition</span>
+                                <span class="text-xs bg-slate-200 px-2 py-1 rounded">Start</span>
                             </div>
-                            <div class="h-4 bg-slate-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-orange-600 rounded-full" style="width: 58%"></div>
-                            </div>
+                            <p class="text-sm text-slate-600 mt-1">Kunde zahlt ~8.000€ (Sonderpreis) für Hardware im
+                                Wert
+                                von 60.000€.</p>
                         </div>
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-sm text-slate-700 font-medium">Elastic Compute</span>
-                                <span class="text-sm font-bold text-orange-400">30% (4,80 €)</span>
+
+                        <div @click="activeFlow = 2" :data-active="activeFlow === 2"
+                            class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-300 rounded-l"></div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-slate-700">2. Der Betrieb (Kosten)</span>
+                                <span class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">-2,40 € / Std</span>
                             </div>
-                            <div class="h-4 bg-slate-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-orange-400 rounded-full" style="width: 30%"></div>
-                            </div>
+                            <p class="text-sm text-slate-600 mt-1">Stromverbrauch für 8kW Leistung (ca. 30ct/kWh).</p>
                         </div>
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <span class="text-sm text-slate-700 font-medium">Crypto Mining (Leerlauf)</span>
-                                <span class="text-sm font-bold text-slate-400">12% (1,92 €)</span>
+
+                        <div @click="activeFlow = 3" :data-active="activeFlow === 3"
+                            class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-slate-300 rounded-l"></div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-slate-700">3. Die Einnahmen (Revenue)</span>
+                                <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">+16,32 € /
+                                    Std</span>
                             </div>
-                            <div class="h-4 bg-slate-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-slate-400 rounded-full" style="width: 12%"></div>
+                            <p class="text-sm text-slate-600 mt-1">Verkauf von Rechenleistung (AI, Rendering, Mining).
+                            </p>
+                        </div>
+
+                        <div @click="activeFlow = 4" :data-active="activeFlow === 4"
+                            class="flow-step cursor-pointer p-4 rounded border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition relative">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500 rounded-l"></div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-orange-700">4. Der Gewinn & Subvention</span>
+                                <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded font-bold">= 13,92
+                                    € /
+                                    Std</span>
                             </div>
+                            <p class="text-sm text-slate-600 mt-1">Dieser Überschuss deckt die Stromrechnung des Kunden
+                                und
+                                amortisiert die Hardware in < 6 Monaten.</p>
                         </div>
                     </div>
 
-                    <div class="mt-6 text-center text-sm text-slate-500">
-                        Diversifizierung sorgt für Stabilität: Wenn keine KI-Aufträge da sind, schürft das System
-                        automatisch Krypto.
-                    </div>
-                </div>
-            </div>
-        </section>
+                    <!-- Revenue Mix (CSS-based pie chart alternative) -->
+                    <div
+                        class="bg-white p-6 rounded-2xl shadow-lg border border-slate-100 flex flex-col justify-center">
+                        <h3 class="text-lg font-bold text-slate-800 mb-6 text-center">Einnahmen-Mix pro Stunde</h3>
 
-        <!-- Section 4: Calculator -->
-        <section id="calculator"
-            class="py-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white relative">
-            <div class="max-w-7xl mx-auto relative z-10">
-                <div class="grid lg:grid-cols-2 gap-16">
-
-                    <!-- Inputs -->
-                    <div>
-                        <h2 class="text-3xl font-bold text-white mb-6">Ihr 10-Jahres-Vergleich</h2>
-                        <p class="text-slate-400 mb-8">Berechnen Sie, wie AURA HEAT im Vergleich zu Gas, Pellets und
-                            Wärmepumpen abschneidet.</p>
-
-                        <div class="space-y-6 bg-slate-800 p-6 rounded-xl border border-slate-700">
+                        <div class="space-y-4">
                             <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">Gebäudetyp</label>
-                                <select x-model="buildingType" @change="calculateSavings()"
-                                    class="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
-                                    <option value="flat">Wohnung (80m²)</option>
-                                    <option value="house">Einfamilienhaus (150m²)</option>
-                                    <option value="large">Mehrfamilienhaus (400m²)</option>
-                                </select>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-slate-700 font-medium">KI-Hosting (B2B)</span>
+                                    <span class="text-sm font-bold text-orange-600">58% (9,60 €)</span>
+                                </div>
+                                <div class="h-4 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-orange-600 rounded-full" style="width: 58%"></div>
+                                </div>
                             </div>
-
                             <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">Aktuelle Heizkosten (€ pro
-                                    Jahr)</label>
-                                <input type="range" x-model="currentCost" min="1000" max="10000" step="100"
-                                    @input="calculateSavings()"
-                                    class="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer accent-orange-500">
-                                <div class="flex justify-between text-xs text-slate-400 mt-2">
-                                    <span>1.000 €</span>
-                                    <span class="text-orange-400 font-bold"
-                                        x-text="parseInt(currentCost).toLocaleString() + ' €'"></span>
-                                    <span>10.000 €</span>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-slate-700 font-medium">Elastic Compute</span>
+                                    <span class="text-sm font-bold text-orange-400">30% (4,80 €)</span>
+                                </div>
+                                <div class="h-4 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-orange-400 rounded-full" style="width: 30%"></div>
                                 </div>
                             </div>
-
-                            <div class="p-4 bg-orange-900/30 border border-orange-500/30 rounded-lg">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-orange-200">Ihre geschätzte Ersparnis (10 Jahre):</span>
-                                    <span class="text-2xl font-bold text-orange-400"
-                                        x-text="totalSavings.toLocaleString() + ' €'"></span>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-slate-700 font-medium">Crypto Mining (Leerlauf)</span>
+                                    <span class="text-sm font-bold text-slate-400">12% (1,92 €)</span>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Results Visualization -->
-                    <div>
-                        <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
-                            <h3 class="text-lg font-bold text-white mb-6 text-center">Gesamtkosten über 10 Jahre</h3>
-                            <div class="space-y-6">
-                                <div>
-                                    <div class="flex justify-between mb-2">
-                                        <span class="text-slate-300">Gastherme</span>
-                                        <span class="font-bold text-slate-200"
-                                            x-text="'~' + gasTotal.toLocaleString() + ' €'"></span>
-                                    </div>
-                                    <div class="h-8 bg-slate-700 rounded-lg overflow-hidden">
-                                        <div class="h-full bg-slate-500 rounded-lg transition-all duration-500"
-                                            :style="'width:' + (gasTotal / maxCost * 100) + '%'"></div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="flex justify-between mb-2">
-                                        <span class="text-slate-300">Wärmepumpe</span>
-                                        <span class="font-bold text-slate-200"
-                                            x-text="'~' + hpTotal.toLocaleString() + ' €'"></span>
-                                    </div>
-                                    <div class="h-8 bg-slate-700 rounded-lg overflow-hidden">
-                                        <div class="h-full bg-slate-400 rounded-lg transition-all duration-500"
-                                            :style="'width:' + (hpTotal / maxCost * 100) + '%'"></div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="flex justify-between mb-2">
-                                        <span class="text-orange-300 font-semibold">AURA HEAT</span>
-                                        <span class="font-bold text-orange-400"
-                                            x-text="'< ' + auraTotal.toLocaleString() + ' €'"></span>
-                                    </div>
-                                    <div class="h-8 bg-slate-700 rounded-lg overflow-hidden">
-                                        <div class="h-full bg-orange-500 rounded-lg transition-all duration-500"
-                                            :style="'width:' + (auraTotal / maxCost * 100) + '%'"></div>
-                                    </div>
+                                <div class="h-4 bg-slate-100 rounded-full overflow-hidden">
+                                    <div class="h-full bg-slate-400 rounded-full" style="width: 12%"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4 mt-6">
-                            <div class="p-4 bg-slate-800 rounded-lg border border-slate-700">
-                                <div class="text-xs text-slate-400">Wärmepumpe (10J)</div>
-                                <div class="text-xl font-bold text-slate-200"
-                                    x-text="'~' + hpTotal.toLocaleString() + ' €'"></div>
+                        <div class="mt-6 text-center text-sm text-slate-500">
+                            Diversifizierung sorgt für Stabilität: Wenn keine KI-Aufträge da sind, schürft das System
+                            automatisch Krypto.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Calculator -->
+            <section id="calculator"
+                class="py-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white relative">
+                <div class="max-w-7xl mx-auto relative z-10">
+                    <div class="grid lg:grid-cols-2 gap-16">
+
+                        <!-- Inputs -->
+                        <div>
+                            <h2 class="text-3xl font-bold text-white mb-6">Ihr 10-Jahres-Vergleich</h2>
+                            <p class="text-slate-400 mb-8">Berechnen Sie, wie AURA HEAT im Vergleich zu Gas, Pellets und
+                                Wärmepumpen abschneidet.</p>
+
+                            <div class="space-y-6 bg-slate-800 p-6 rounded-xl border border-slate-700">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-300 mb-2">Gebäudetyp</label>
+                                    <select x-model="buildingType" @change="calculateSavings()"
+                                        class="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent transition">
+                                        <option value="flat">Wohnung (80m²)</option>
+                                        <option value="house">Einfamilienhaus (150m²)</option>
+                                        <option value="large">Mehrfamilienhaus (400m²)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-300 mb-2">Aktuelle Heizkosten (€
+                                        pro
+                                        Jahr)</label>
+                                    <input type="range" x-model="currentCost" min="1000" max="10000" step="100"
+                                        @input="calculateSavings()"
+                                        class="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer accent-orange-500">
+                                    <div class="flex justify-between text-xs text-slate-400 mt-2">
+                                        <span>1.000 €</span>
+                                        <span class="text-orange-400 font-bold"
+                                            x-text="parseInt(currentCost).toLocaleString() + ' €'"></span>
+                                        <span>10.000 €</span>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 bg-orange-900/30 border border-orange-500/30 rounded-lg">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-orange-200">Ihre geschätzte Ersparnis (10 Jahre):</span>
+                                        <span class="text-2xl font-bold text-orange-400"
+                                            x-text="totalSavings.toLocaleString() + ' €'"></span>
+                                    </div>
+                                </div>
                             </div>
-                            <div
-                                class="p-4 bg-slate-800 rounded-lg border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
-                                <div class="text-xs text-orange-300">AURA HEAT (10J)</div>
-                                <div class="text-xl font-bold text-orange-400"
-                                    x-text="'< ' + auraTotal.toLocaleString() + ' €'"></div>
+                        </div>
+
+                        <!-- Results Visualization -->
+                        <div>
+                            <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+                                <h3 class="text-lg font-bold text-white mb-6 text-center">Gesamtkosten über 10 Jahre
+                                </h3>
+                                <div class="space-y-6">
+                                    <div>
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-slate-300">Gastherme</span>
+                                            <span class="font-bold text-slate-200"
+                                                x-text="'~' + gasTotal.toLocaleString() + ' €'"></span>
+                                        </div>
+                                        <div class="h-8 bg-slate-700 rounded-lg overflow-hidden">
+                                            <div class="h-full bg-slate-500 rounded-lg transition-all duration-500"
+                                                :style="'width:' + (gasTotal / maxCost * 100) + '%'"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-slate-300">Wärmepumpe</span>
+                                            <span class="font-bold text-slate-200"
+                                                x-text="'~' + hpTotal.toLocaleString() + ' €'"></span>
+                                        </div>
+                                        <div class="h-8 bg-slate-700 rounded-lg overflow-hidden">
+                                            <div class="h-full bg-slate-400 rounded-lg transition-all duration-500"
+                                                :style="'width:' + (hpTotal / maxCost * 100) + '%'"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-2">
+                                            <span class="text-orange-300 font-semibold">AURA HEAT</span>
+                                            <span class="font-bold text-orange-400"
+                                                x-text="'< ' + auraTotal.toLocaleString() + ' €'"></span>
+                                        </div>
+                                        <div class="h-8 bg-slate-700 rounded-lg overflow-hidden">
+                                            <div class="h-full bg-orange-500 rounded-lg transition-all duration-500"
+                                                :style="'width:' + (auraTotal / maxCost * 100) + '%'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 mt-6">
+                                <div class="p-4 bg-slate-800 rounded-lg border border-slate-700">
+                                    <div class="text-xs text-slate-400">Wärmepumpe (10J)</div>
+                                    <div class="text-xl font-bold text-slate-200"
+                                        x-text="'~' + hpTotal.toLocaleString() + ' €'"></div>
+                                </div>
+                                <div
+                                    class="p-4 bg-slate-800 rounded-lg border border-orange-500/50 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+                                    <div class="text-xs text-orange-300">AURA HEAT (10J)</div>
+                                    <div class="text-xl font-bold text-orange-400"
+                                        x-text="'< ' + auraTotal.toLocaleString() + ' €'"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Footer / Stakeholders -->
-        <section class="py-16">
-            <div class="text-center">
-                <h2 class="text-2xl font-bold text-slate-900 mb-10">Ein Ökosystem, bei dem jeder gewinnt</h2>
+            <!-- Footer / Stakeholders -->
+            <section class="py-16">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-10">Ein Ökosystem, bei dem jeder gewinnt</h2>
 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
-                        <div class="text-3xl mb-4">🏠</div>
-                        <h3 class="font-bold text-slate-800 mb-2">Hauseigentümer</h3>
-                        <p class="text-sm text-slate-600">Günstigste Heizlösung am Markt. Wertsteigerung der Immobilie.
-                            Unabhängigkeit von Gas.</p>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
+                            <div class="text-3xl mb-4">🏠</div>
+                            <h3 class="font-bold text-slate-800 mb-2">Hauseigentümer</h3>
+                            <p class="text-sm text-slate-600">Günstigste Heizlösung am Markt. Wertsteigerung der
+                                Immobilie.
+                                Unabhängigkeit von Gas.</p>
+                        </div>
+                        <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
+                            <div class="text-3xl mb-4">🏢</div>
+                            <h3 class="font-bold text-slate-800 mb-2">Vermieter</h3>
+                            <p class="text-sm text-slate-600">"Heizkosten-Flatrate" als USP für Mieter.
+                                CO₂-Steuer-Ersparnis. Einfache Modernisierung.</p>
+                        </div>
+                        <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
+                            <div class="text-3xl mb-4">💼</div>
+                            <h3 class="font-bold text-slate-800 mb-2">Regionale KMUs</h3>
+                            <p class="text-sm text-slate-600">Sichere, lokale KI-Cloud. Datensouveränität (kein
+                                US-Server).
+                                Elastische Rechenleistung.</p>
+                        </div>
                     </div>
-                    <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
-                        <div class="text-3xl mb-4">🏢</div>
-                        <h3 class="font-bold text-slate-800 mb-2">Vermieter</h3>
-                        <p class="text-sm text-slate-600">"Heizkosten-Flatrate" als USP für Mieter.
-                            CO₂-Steuer-Ersparnis. Einfache Modernisierung.</p>
-                    </div>
-                    <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
-                        <div class="text-3xl mb-4">💼</div>
-                        <h3 class="font-bold text-slate-800 mb-2">Regionale KMUs</h3>
-                        <p class="text-sm text-slate-600">Sichere, lokale KI-Cloud. Datensouveränität (kein US-Server).
-                            Elastische Rechenleistung.</p>
+
+                    <div class="mt-16">
+                        <p class="text-slate-500 text-sm">© 2026 AURA HEAT. Alle Berechnungen sind Schätzungen basierend
+                            auf
+                            Marktpreisen von 2025.</p>
                     </div>
                 </div>
+            </section>
+        </main>
 
-                <div class="mt-16">
-                    <p class="text-slate-500 text-sm">© 2026 AURA HEAT. Alle Berechnungen sind Schätzungen basierend auf
-                        Marktpreisen von 2025.</p>
+        <!-- Footer (for standalone view) -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <div class="footer-logo">AH</div>
+                    <span class="footer-brand-text">Aura Heat</span>
+                </div>
+                <div class="footer-meta">
+                    <div class="footer-copyright">© Aura Heat Project Group</div>
+                    <div class="footer-disclaimer">Aided by AI</div>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <!-- Footer (for standalone view) -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <div class="footer-logo">AH</div>
-                <span class="footer-brand-text">Aura Heat</span>
-            </div>
-            <div class="footer-meta">
-                <div class="footer-copyright">© Aura Heat Project Group</div>
-                <div class="footer-disclaimer">Aided by AI</div>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div><!-- end wrapper -->
 
     <script>
-        function auraHeatPage() {
-            return {
-                mobileMenuOpen: false,
-                activeVision: null,
-                activeFlow: null,
-                selectedSpec: 'M',
-                buildingType: 'house',
-                currentCost: 2500,
-
-                // Calculated values
-                gasTotal: 0,
-                hpTotal: 0,
-                auraTotal: 0,
-                totalSavings: 0,
-                maxCost: 50000,
-
-                specs: {
-                    'S': { kw: '5 kW', modules: '5', target: 'Etagenwohnung (ca. 80m²)', invest: '< 6.000 €' },
-                    'M': { kw: '8 kW', modules: '8', target: 'Einfamilienhaus (ca. 150m²)', invest: '< 8.000 €' },
-                    'XL': { kw: '30 kW', modules: '30', target: 'Mehrfamilienhaus (ca. 400m²)', invest: 'Auf Anfrage' }
-                },
-
-                efficiencyData: [
-                    { label: '10°C', aura: 100, heatpump: 90 },
-                    { label: '5°C', aura: 100, heatpump: 80 },
-                    { label: '0°C', aura: 100, heatpump: 65 },
-                    { label: '-5°C', aura: 100, heatpump: 50 },
-                    { label: '-10°C', aura: 100, heatpump: 35 },
-                    { label: '-15°C', aura: 100, heatpump: 20 }
-                ],
-
-                init() {
-                    this.calculateSavings();
-                },
-
-                scrollTo(sectionId) {
-                    const element = document.getElementById(sectionId);
-                    if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
+        // Standalone mode only: Define component if not already loaded via components.js
+        if (typeof window.auraHeatPage === 'undefined') {
+            window.auraHeatPage = function () {
+                return {
+                    mobileMenuOpen: false,
+                    activeVision: null,
+                    activeFlow: null,
+                    selectedSpec: 'M',
+                    buildingType: 'house',
+                    currentCost: 2500,
+                    gasTotal: 0,
+                    hpTotal: 0,
+                    auraTotal: 0,
+                    totalSavings: 0,
+                    maxCost: 50000,
+                    specs: {
+                        'S': { kw: '5 kW', modules: '5', target: 'Etagenwohnung (ca. 80m²)', invest: '< 6.000 €' },
+                        'M': { kw: '8 kW', modules: '8', target: 'Einfamilienhaus (ca. 150m²)', invest: '< 8.000 €' },
+                        'XL': { kw: '30 kW', modules: '30', target: 'Mehrfamilienhaus (ca. 400m²)', invest: 'Auf Anfrage' }
+                    },
+                    efficiencyData: [
+                        { label: '10°C', aura: 100, heatpump: 90 },
+                        { label: '5°C', aura: 100, heatpump: 80 },
+                        { label: '0°C', aura: 100, heatpump: 65 },
+                        { label: '-5°C', aura: 100, heatpump: 50 },
+                        { label: '-10°C', aura: 100, heatpump: 35 },
+                        { label: '-15°C', aura: 100, heatpump: 20 }
+                    ],
+                    init() { this.calculateSavings(); },
+                    scrollTo(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); },
+                    calculateSavings() {
+                        let iG = 12000, iHP = 25000, iA = 8000;
+                        if (this.buildingType === 'flat') { iG = 8000; iHP = 18000; iA = 5000; }
+                        if (this.buildingType === 'large') { iG = 18000; iHP = 40000; iA = 15000; }
+                        this.gasTotal = iG + (parseInt(this.currentCost) * 10) + 2000;
+                        this.hpTotal = iHP + (parseInt(this.currentCost) * 0.7 * 10) + 1500;
+                        this.auraTotal = iA;
+                        this.totalSavings = Math.max(this.gasTotal, this.hpTotal) - this.auraTotal;
+                        this.maxCost = Math.max(this.gasTotal, this.hpTotal) * 1.1;
                     }
-                },
-
-                calculateSavings() {
-                    let installGas = 12000;
-                    let installHP = 25000;
-                    let installAura = 8000;
-
-                    if (this.buildingType === 'flat') {
-                        installGas = 8000;
-                        installHP = 18000;
-                        installAura = 5000;
-                    }
-                    if (this.buildingType === 'large') {
-                        installGas = 18000;
-                        installHP = 40000;
-                        installAura = 15000;
-                    }
-
-                    this.gasTotal = installGas + (parseInt(this.currentCost) * 10) + 2000;
-                    this.hpTotal = installHP + (parseInt(this.currentCost) * 0.7 * 10) + 1500;
-                    this.auraTotal = installAura;
-
-                    this.totalSavings = Math.max(this.gasTotal, this.hpTotal) - this.auraTotal;
-                    this.maxCost = Math.max(this.gasTotal, this.hpTotal) * 1.1;
-                }
-            }
+                };
+            };
+            // Register with Alpine when it loads
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('auraHeatPage', window.auraHeatPage);
+            });
         }
     </script>
 </body>

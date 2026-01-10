@@ -49,333 +49,346 @@
     </style>
 </head>
 
-<body x-data="tenstorrentPage()" class="bg-slate-50 text-slate-800">
-    <!-- Navigation (for standalone view) -->
-    <nav class="nav">
-        <div class="nav-container">
-            <a href="../../index.html" class="logo">
-                AURA<span class="logo-accent">HEAT</span>
-            </a>
-            <div class="nav-desktop" id="nav-container">
-                <button @click="scrollTo('architecture')" data-tab="architecture" class="nav-btn">Architecture</button>
-                <button @click="scrollTo('experience')" data-tab="experience" class="nav-btn">Field Reports</button>
-                <button @click="scrollTo('readiness')" data-tab="readiness" class="nav-btn">Readiness</button>
-                <button @click="scrollTo('economics')" data-tab="economics" class="nav-btn"
-                    style="background: var(--color-orange-600); color: white; border-radius: 0.5rem;">Economics</button>
-            </div>
-            <button class="mobile-menu-btn" @click="mobileMenuOpen = !mobileMenuOpen">
-                <span x-text="mobileMenuOpen ? '✕' : '☰'"></span>
-            </button>
-        </div>
-        <div class="mobile-menu" :class="{ 'open': mobileMenuOpen }">
-            <button @click="scrollTo('architecture'); mobileMenuOpen = false" data-tab="architecture"
-                class="mobile-nav-item">Architecture</button>
-            <button @click="scrollTo('experience'); mobileMenuOpen = false" data-tab="experience"
-                class="mobile-nav-item">Field Reports</button>
-            <button @click="scrollTo('readiness'); mobileMenuOpen = false" data-tab="readiness"
-                class="mobile-nav-item">Readiness</button>
-            <button @click="scrollTo('economics'); mobileMenuOpen = false" data-tab="economics" class="mobile-nav-item"
-                style="color: var(--color-orange-600); font-weight: 700;">Economics</button>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="pt-32 pb-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-1/3 h-full bg-orange-500 opacity-10 skew-x-12 transform origin-top-right">
-        </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center md:text-left md:w-2/3">
-                <div
-                    class="inline-block px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm font-semibold mb-6 border border-orange-500/30">
-                    2025-2026 Technical Assessment
+<body class="bg-slate-50 text-slate-800">
+    <div x-data="tenstorrentPage()" id="tenstorrent-page">
+        <!-- Navigation (for standalone view) -->
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="../../index.html" class="logo">
+                    AURA<span class="logo-accent">HEAT</span>
+                </a>
+                <div class="nav-desktop" id="nav-container">
+                    <button @click="scrollTo('architecture')" data-tab="architecture"
+                        class="nav-btn">Architecture</button>
+                    <button @click="scrollTo('experience')" data-tab="experience" class="nav-btn">Field Reports</button>
+                    <button @click="scrollTo('readiness')" data-tab="readiness" class="nav-btn">Readiness</button>
+                    <button @click="scrollTo('economics')" data-tab="economics" class="nav-btn"
+                        style="background: var(--color-orange-600); color: white; border-radius: 0.5rem;">Economics</button>
                 </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
-                    The Blackhole <br>
-                    <span class="text-orange-400">Event Horizon.</span>
-                </h1>
-                <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
-                    Tenstorrent's p150a RISC-V infrastructure assessment. Radical hardware efficiency meeting a complex
-                    software ecosystem.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#economics"
-                        class="px-8 py-4 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition font-bold text-center shadow-lg hover:shadow-orange-500/25">
-                        View Economics
-                    </a>
-                    <a href="#architecture"
-                        class="px-8 py-4 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition font-medium text-center border border-slate-600">
-                        Explore Architecture
-                    </a>
-                </div>
+                <button class="mobile-menu-btn" @click="mobileMenuOpen = !mobileMenuOpen">
+                    <span x-text="mobileMenuOpen ? '✕' : '☰'"></span>
+                </button>
             </div>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="main-content">
-
-        <!-- Section 1: Architecture -->
-        <section id="architecture" class="py-20">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4 uppercase tracking-tighter">Radical Scalability</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">Blackhole bypasses traditional bottlenecks using standard
-                    networking protocols and programmable cores.</p>
+            <div class="mobile-menu" :class="{ 'open': mobileMenuOpen }">
+                <button @click="scrollTo('architecture'); mobileMenuOpen = false" data-tab="architecture"
+                    class="mobile-nav-item">Architecture</button>
+                <button @click="scrollTo('experience'); mobileMenuOpen = false" data-tab="experience"
+                    class="mobile-nav-item">Field Reports</button>
+                <button @click="scrollTo('readiness'); mobileMenuOpen = false" data-tab="readiness"
+                    class="mobile-nav-item">Readiness</button>
+                <button @click="scrollTo('economics'); mobileMenuOpen = false" data-tab="economics"
+                    class="mobile-nav-item" style="color: var(--color-orange-600); font-weight: 700;">Economics</button>
             </div>
+        </nav>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="interactive-card bg-white border border-slate-200 rounded-xl p-8 shadow-sm">
-                    <div class="flex items-center gap-3 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-orange-500">
-                            <polygon points="12 2 2 7 12 12 22 7 12 2" />
-                            <polyline points="2 17 12 22 22 17" />
-                            <polyline points="2 12 12 17 22 12" />
-                        </svg>
-                        <h3 class="text-xl font-bold text-slate-900 uppercase tracking-tight">Tensix Core Grid</h3>
+        <!-- Hero Section -->
+        <header class="pt-32 pb-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden">
+            <div
+                class="absolute top-0 right-0 w-1/3 h-full bg-orange-500 opacity-10 skew-x-12 transform origin-top-right">
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center md:text-left md:w-2/3">
+                    <div
+                        class="inline-block px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-sm font-semibold mb-6 border border-orange-500/30">
+                        2025-2026 Technical Assessment
                     </div>
-                    <div class="text-4xl font-black text-orange-600 mb-2">140 Cores</div>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Fully programmable RISC-V cores networked via a 2D NoC. Rejecting the fixed-function ASIC model.
+                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+                        The Blackhole <br>
+                        <span class="text-orange-400">Event Horizon.</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
+                        Tenstorrent's p150a RISC-V infrastructure assessment. Radical hardware efficiency meeting a
+                        complex
+                        software ecosystem.
                     </p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="interactive-card bg-white border border-slate-200 rounded-xl p-8 shadow-sm">
-                    <div class="flex items-center gap-3 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-orange-500">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                        </svg>
-                        <h3 class="text-xl font-bold text-slate-900 uppercase tracking-tight">GDDR6 Architecture</h3>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#economics"
+                            class="px-8 py-4 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition font-bold text-center shadow-lg hover:shadow-orange-500/25">
+                            View Economics
+                        </a>
+                        <a href="#architecture"
+                            class="px-8 py-4 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition font-medium text-center border border-slate-600">
+                            Explore Architecture
+                        </a>
                     </div>
-                    <div class="text-4xl font-black text-orange-600 mb-2">512 GB/s</div>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Uses standard GDDR6 to slash costs while maintaining the bandwidth necessary for dense
-                        inference.
-                    </p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="interactive-card bg-white border border-slate-200 rounded-xl p-8 shadow-sm">
-                    <div class="flex items-center gap-3 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-orange-500">
-                            <rect x="2" y="2" width="6" height="6" rx="1" />
-                            <rect x="16" y="2" width="6" height="6" rx="1" />
-                            <rect x="2" y="16" width="6" height="6" rx="1" />
-                            <rect x="16" y="16" width="6" height="6" rx="1" />
-                            <line x1="6" y1="8" x2="6" y2="16" />
-                            <line x1="18" y1="8" x2="18" y2="16" />
-                            <line x1="8" y1="5" x2="16" y2="5" />
-                            <line x1="8" y1="19" x2="16" y2="19" />
-                        </svg>
-                        <h3 class="text-xl font-bold text-slate-900 uppercase tracking-tight">Native Ethernet</h3>
-                    </div>
-                    <div class="text-4xl font-black text-orange-600 mb-2">800G Mesh</div>
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Direct-attach Ethernet ports allow for switch-less clusters and infinite linear scaling.
-                    </p>
                 </div>
             </div>
-        </section>
+        </header>
 
-        <!-- Section 2: Field Reports -->
-        <section id="experience" class="py-20 border-t border-slate-200">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900 mb-4 uppercase">Field Intel</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto">First-hand reports from early-access labs and strategic
-                    partners.</p>
-            </div>
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="main-content">
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="interactive-card p-8 bg-white border border-slate-200 rounded-xl">
-                    <div class="flex justify-between mb-4">
-                        <h3 class="text-xl font-bold text-slate-900 uppercase">Independent Review</h3>
-                        <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded">Mixed</span>
-                    </div>
-                    <p class="text-slate-600 italic mb-6">
-                        "Latency for first token is incredible, but the software stack feels like a construction site.
-                        Expect driver hangs if telemetry is pushed too hard."
-                    </p>
-                    <div class="text-xs font-bold text-orange-600 uppercase">Pro Hi-Tech Labs</div>
+            <!-- Section 1: Architecture -->
+            <section id="architecture" class="py-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4 uppercase tracking-tighter">Radical Scalability
+                    </h2>
+                    <p class="text-slate-600 max-w-2xl mx-auto">Blackhole bypasses traditional bottlenecks using
+                        standard
+                        networking protocols and programmable cores.</p>
                 </div>
 
-                <div class="interactive-card p-8 bg-white border border-slate-200 rounded-xl">
-                    <div class="flex justify-between mb-4">
-                        <h3 class="text-xl font-bold text-slate-900 uppercase">Data Center Ops</h3>
-                        <span class="px-2 py-1 bg-rose-100 text-rose-700 text-xs font-bold rounded">Warning</span>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="interactive-card bg-white border border-slate-200 rounded-xl p-8 shadow-sm">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-orange-500">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                                <polyline points="2 17 12 22 22 17" />
+                                <polyline points="2 12 12 17 22 12" />
+                            </svg>
+                            <h3 class="text-xl font-bold text-slate-900 uppercase tracking-tight">Tensix Core Grid</h3>
+                        </div>
+                        <div class="text-4xl font-black text-orange-600 mb-2">140 Cores</div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Fully programmable RISC-V cores networked via a 2D NoC. Rejecting the fixed-function ASIC
+                            model.
+                        </p>
                     </div>
-                    <p class="text-slate-600 italic mb-6">
-                        "Idle power draw is a major concern at 120W per card. You're paying for heat even when the
-                        system is waiting for tasks."
-                    </p>
-                    <div class="text-xs font-bold text-orange-600 uppercase">SME Cluster Insights</div>
+
+                    <!-- Card 2 -->
+                    <div class="interactive-card bg-white border border-slate-200 rounded-xl p-8 shadow-sm">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-orange-500">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                            </svg>
+                            <h3 class="text-xl font-bold text-slate-900 uppercase tracking-tight">GDDR6 Architecture
+                            </h3>
+                        </div>
+                        <div class="text-4xl font-black text-orange-600 mb-2">512 GB/s</div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Uses standard GDDR6 to slash costs while maintaining the bandwidth necessary for dense
+                            inference.
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="interactive-card bg-white border border-slate-200 rounded-xl p-8 shadow-sm">
+                        <div class="flex items-center gap-3 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="text-orange-500">
+                                <rect x="2" y="2" width="6" height="6" rx="1" />
+                                <rect x="16" y="2" width="6" height="6" rx="1" />
+                                <rect x="2" y="16" width="6" height="6" rx="1" />
+                                <rect x="16" y="16" width="6" height="6" rx="1" />
+                                <line x1="6" y1="8" x2="6" y2="16" />
+                                <line x1="18" y1="8" x2="18" y2="16" />
+                                <line x1="8" y1="5" x2="16" y2="5" />
+                                <line x1="8" y1="19" x2="16" y2="19" />
+                            </svg>
+                            <h3 class="text-xl font-bold text-slate-900 uppercase tracking-tight">Native Ethernet</h3>
+                        </div>
+                        <div class="text-4xl font-black text-orange-600 mb-2">800G Mesh</div>
+                        <p class="text-slate-600 text-sm leading-relaxed">
+                            Direct-attach Ethernet ports allow for switch-less clusters and infinite linear scaling.
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Section 3: Readiness -->
-        <section id="readiness" class="py-20 border-t border-slate-200">
-            <div class="grid md:grid-cols-2 gap-16">
-                <div>
-                    <h2 class="text-3xl font-bold text-slate-900 mb-8 uppercase tracking-tighter">Readiness Index</h2>
+            <!-- Section 2: Field Reports -->
+            <section id="experience" class="py-20 border-t border-slate-200">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4 uppercase">Field Intel</h2>
+                    <p class="text-slate-600 max-w-2xl mx-auto">First-hand reports from early-access labs and strategic
+                        partners.</p>
+                </div>
 
-                    <template x-for="item in readinessMetrics" :key="item.label">
-                        <div class="mb-8">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-slate-800 font-bold" x-text="item.label"></span>
-                                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase" :class="{
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="interactive-card p-8 bg-white border border-slate-200 rounded-xl">
+                        <div class="flex justify-between mb-4">
+                            <h3 class="text-xl font-bold text-slate-900 uppercase">Independent Review</h3>
+                            <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded">Mixed</span>
+                        </div>
+                        <p class="text-slate-600 italic mb-6">
+                            "Latency for first token is incredible, but the software stack feels like a construction
+                            site.
+                            Expect driver hangs if telemetry is pushed too hard."
+                        </p>
+                        <div class="text-xs font-bold text-orange-600 uppercase">Pro Hi-Tech Labs</div>
+                    </div>
+
+                    <div class="interactive-card p-8 bg-white border border-slate-200 rounded-xl">
+                        <div class="flex justify-between mb-4">
+                            <h3 class="text-xl font-bold text-slate-900 uppercase">Data Center Ops</h3>
+                            <span class="px-2 py-1 bg-rose-100 text-rose-700 text-xs font-bold rounded">Warning</span>
+                        </div>
+                        <p class="text-slate-600 italic mb-6">
+                            "Idle power draw is a major concern at 120W per card. You're paying for heat even when the
+                            system is waiting for tasks."
+                        </p>
+                        <div class="text-xs font-bold text-orange-600 uppercase">SME Cluster Insights</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Readiness -->
+            <section id="readiness" class="py-20 border-t border-slate-200">
+                <div class="grid md:grid-cols-2 gap-16">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-8 uppercase tracking-tighter">Readiness Index
+                        </h2>
+
+                        <template x-for="item in readinessMetrics" :key="item.label">
+                            <div class="mb-8">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-slate-800 font-bold" x-text="item.label"></span>
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase" :class="{
                                           'text-emerald-700 bg-emerald-100': item.score === 'High',
                                           'text-amber-700 bg-amber-100': item.score === 'Medium',
                                           'text-rose-700 bg-rose-100': item.score === 'Low'
                                       }" x-text="item.score"></span>
-                            </div>
-                            <div class="h-3 w-full bg-slate-200 rounded-full overflow-hidden mb-2">
-                                <div class="readiness-bar" :class="{
+                                </div>
+                                <div class="h-3 w-full bg-slate-200 rounded-full overflow-hidden mb-2">
+                                    <div class="readiness-bar" :class="{
                                          'bg-emerald-500': item.score === 'High',
                                          'bg-amber-500': item.score === 'Medium',
                                          'bg-rose-500': item.score === 'Low'
                                      }"
-                                    :style="'width:' + (item.score === 'High' ? '100%' : item.score === 'Medium' ? '66%' : '33%')">
+                                        :style="'width:' + (item.score === 'High' ? '100%' : item.score === 'Medium' ? '66%' : '33%')">
+                                    </div>
                                 </div>
+                                <p class="text-sm text-slate-500 italic" x-text="'\"' + item.analysis + ' \"'"></p>
                             </div>
-                            <p class="text-sm text-slate-500 italic" x-text="'\"' + item.analysis + ' \"'"></p>
+                        </template>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="p-8 bg-white border border-slate-200 rounded-2xl text-center shadow-lg">
+                            <h3 class="text-xl font-bold text-slate-900 uppercase">Enterprise Production</h3>
+                            <div class="text-2xl font-black text-rose-600 my-2">NOT READY</div>
+                            <p class="text-slate-500 text-sm italic">"Requires full-time engineers for platform
+                                maintenance."</p>
                         </div>
-                    </template>
+
+                        <div class="p-8 bg-white border-2 border-orange-500 rounded-2xl text-center shadow-lg">
+                            <h3 class="text-xl font-bold text-slate-900 uppercase">R&D / Academic</h3>
+                            <div class="text-2xl font-black text-orange-500 my-2">FULLY READY</div>
+                            <p class="text-slate-500 text-sm italic">"Ideal for teams building custom kernels and AI
+                                research."</p>
+                        </div>
+                    </div>
                 </div>
+            </section>
 
-                <div class="space-y-6">
-                    <div class="p-8 bg-white border border-slate-200 rounded-2xl text-center shadow-lg">
-                        <h3 class="text-xl font-bold text-slate-900 uppercase">Enterprise Production</h3>
-                        <div class="text-2xl font-black text-rose-600 my-2">NOT READY</div>
-                        <p class="text-slate-500 text-sm italic">"Requires full-time engineers for platform
-                            maintenance."</p>
+            <!-- Section 4: Economics -->
+            <section id="economics" class="py-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-12">
+                        <h2 class="text-4xl font-black text-white mb-4 uppercase tracking-tighter">Value Analysis</h2>
+                        <p class="text-slate-400">10-Year TCO projection for 128GB Cluster Capacity</p>
                     </div>
 
-                    <div class="p-8 bg-white border-2 border-orange-500 rounded-2xl text-center shadow-lg">
-                        <h3 class="text-xl font-bold text-slate-900 uppercase">R&D / Academic</h3>
-                        <div class="text-2xl font-black text-orange-500 my-2">FULLY READY</div>
-                        <p class="text-slate-500 text-sm italic">"Ideal for teams building custom kernels and AI
-                            research."</p>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="p-8 bg-slate-800 border border-slate-700 rounded-2xl flex flex-col">
+                            <span class="text-xs text-orange-400 font-bold uppercase tracking-widest mb-4">Tenstorrent
+                                p150a
+                                x4</span>
+                            <div class="text-5xl font-black text-white mb-6">$5,600</div>
+                            <div
+                                class="mt-auto px-4 py-2 bg-orange-600 text-white rounded font-bold uppercase text-xs text-center">
+                                Efficiency King</div>
+                        </div>
+                        <div class="p-8 bg-slate-800 border border-slate-700 rounded-2xl flex flex-col">
+                            <span class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-4">NVIDIA RTX
+                                5090
+                                x4</span>
+                            <div class="text-5xl font-black text-white mb-6">~$8,800</div>
+                            <div
+                                class="mt-auto px-4 py-2 bg-slate-600 text-slate-200 rounded font-bold uppercase text-xs text-center">
+                                Consumer Choice</div>
+                        </div>
+                        <div class="p-8 bg-white border border-slate-200 rounded-2xl flex flex-col text-slate-900">
+                            <span class="text-xs text-orange-600 font-bold uppercase tracking-widest mb-4">NVIDIA H100
+                                x2</span>
+                            <div class="text-5xl font-black text-orange-600 mb-6">$50,000+</div>
+                            <div
+                                class="mt-auto px-4 py-2 bg-slate-900 text-white rounded font-bold uppercase text-xs text-center">
+                                Enterprise Standard</div>
+                        </div>
                     </div>
+                </div>
+            </section>
+
+            <!-- Stakeholders Summary -->
+            <section class="py-16">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-10">Who Should Consider Blackhole?</h2>
+
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
+                            <div class="text-3xl mb-4">🔬</div>
+                            <h3 class="font-bold text-slate-800 mb-2">Research Labs</h3>
+                            <p class="text-sm text-slate-600">Perfect for custom kernel development, AI research, and
+                                teams comfortable with bleeding-edge tooling.</p>
+                        </div>
+                        <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
+                            <div class="text-3xl mb-4">🎓</div>
+                            <h3 class="font-bold text-slate-800 mb-2">Academic Institutions</h3>
+                            <p class="text-sm text-slate-600">Exceptional $/FLOP makes it ideal for teaching parallel
+                                computing and ML infrastructure.</p>
+                        </div>
+                        <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
+                            <div class="text-3xl mb-4">⚠️</div>
+                            <h3 class="font-bold text-slate-800 mb-2">Not Yet: Enterprise</h3>
+                            <p class="text-sm text-slate-600">Production workloads should wait for driver maturity and
+                                ecosystem stabilization.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-16">
+                        <p class="text-slate-500 text-sm">© 2026 AURA HEAT. All analysis based on January 2026 market
+                            data.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer (for standalone view) -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <div class="footer-logo">AH</div>
+                    <div>
+                        <div class="footer-brand-text">Aura Heat</div>
+                        <div class="text-xs text-slate-500 font-mono uppercase tracking-widest">Global AI Infrastructure
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-meta">
+                    <div class="text-slate-500 text-sm italic max-w-md text-center md:text-right">
+                        "Software optimizations like speculative decoding could double performance in the future." — Jim
+                        Keller
+                    </div>
+                    <div class="footer-copyright mt-2">© Aura Heat. All rights reserved.</div>
                 </div>
             </div>
-        </section>
-
-        <!-- Section 4: Economics -->
-        <section id="economics" class="py-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white">
-            <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-black text-white mb-4 uppercase tracking-tighter">Value Analysis</h2>
-                    <p class="text-slate-400">10-Year TCO projection for 128GB Cluster Capacity</p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="p-8 bg-slate-800 border border-slate-700 rounded-2xl flex flex-col">
-                        <span class="text-xs text-orange-400 font-bold uppercase tracking-widest mb-4">Tenstorrent p150a
-                            x4</span>
-                        <div class="text-5xl font-black text-white mb-6">$5,600</div>
-                        <div
-                            class="mt-auto px-4 py-2 bg-orange-600 text-white rounded font-bold uppercase text-xs text-center">
-                            Efficiency King</div>
-                    </div>
-                    <div class="p-8 bg-slate-800 border border-slate-700 rounded-2xl flex flex-col">
-                        <span class="text-xs text-slate-400 font-bold uppercase tracking-widest mb-4">NVIDIA RTX 5090
-                            x4</span>
-                        <div class="text-5xl font-black text-white mb-6">~$8,800</div>
-                        <div
-                            class="mt-auto px-4 py-2 bg-slate-600 text-slate-200 rounded font-bold uppercase text-xs text-center">
-                            Consumer Choice</div>
-                    </div>
-                    <div class="p-8 bg-white border border-slate-200 rounded-2xl flex flex-col text-slate-900">
-                        <span class="text-xs text-orange-600 font-bold uppercase tracking-widest mb-4">NVIDIA H100
-                            x2</span>
-                        <div class="text-5xl font-black text-orange-600 mb-6">$50,000+</div>
-                        <div
-                            class="mt-auto px-4 py-2 bg-slate-900 text-white rounded font-bold uppercase text-xs text-center">
-                            Enterprise Standard</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stakeholders Summary -->
-        <section class="py-16">
-            <div class="text-center">
-                <h2 class="text-2xl font-bold text-slate-900 mb-10">Who Should Consider Blackhole?</h2>
-
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
-                        <div class="text-3xl mb-4">🔬</div>
-                        <h3 class="font-bold text-slate-800 mb-2">Research Labs</h3>
-                        <p class="text-sm text-slate-600">Perfect for custom kernel development, AI research, and
-                            teams comfortable with bleeding-edge tooling.</p>
-                    </div>
-                    <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
-                        <div class="text-3xl mb-4">🎓</div>
-                        <h3 class="font-bold text-slate-800 mb-2">Academic Institutions</h3>
-                        <p class="text-sm text-slate-600">Exceptional $/FLOP makes it ideal for teaching parallel
-                            computing and ML infrastructure.</p>
-                    </div>
-                    <div class="p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
-                        <div class="text-3xl mb-4">⚠️</div>
-                        <h3 class="font-bold text-slate-800 mb-2">Not Yet: Enterprise</h3>
-                        <p class="text-sm text-slate-600">Production workloads should wait for driver maturity and
-                            ecosystem stabilization.</p>
-                    </div>
-                </div>
-
-                <div class="mt-16">
-                    <p class="text-slate-500 text-sm">© 2026 AURA HEAT. All analysis based on January 2026 market data.
-                    </p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer (for standalone view) -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <div class="footer-logo">AH</div>
-                <div>
-                    <div class="footer-brand-text">Aura Heat</div>
-                    <div class="text-xs text-slate-500 font-mono uppercase tracking-widest">Global AI Infrastructure
-                    </div>
-                </div>
-            </div>
-            <div class="footer-meta">
-                <div class="text-slate-500 text-sm italic max-w-md text-center md:text-right">
-                    "Software optimizations like speculative decoding could double performance in the future." — Jim
-                    Keller
-                </div>
-                <div class="footer-copyright mt-2">© Aura Heat. All rights reserved.</div>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    </div><!-- end wrapper -->
 
     <script>
-        function tenstorrentPage() {
-            return {
-                mobileMenuOpen: false,
-
-                readinessMetrics: [
-                    { label: 'Silicon Reliability', score: 'High', analysis: 'Hardware is stable, mass-produced, and functionally sound.' },
-                    { label: 'Driver Maturity', score: 'Low', analysis: 'Active development causing breaking changes weekly.' },
-                    { label: 'Eco-system (Metal)', score: 'Medium', analysis: 'TT-Metalium is powerful but has a steep learning curve.' },
-                    { label: 'Cost Efficiency', score: 'High', analysis: 'Unbeatable $/FLOP at the hardware level.' }
-                ],
-
-                scrollTo(sectionId) {
-                    const element = document.getElementById(sectionId);
-                    if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            }
+        // Standalone mode only: Define component if not already loaded via components.js
+        if (typeof window.tenstorrentPage === 'undefined') {
+            window.tenstorrentPage = function () {
+                return {
+                    mobileMenuOpen: false,
+                    readinessMetrics: [
+                        { label: 'Silicon Reliability', score: 'High', analysis: 'Hardware is stable, mass-produced, and functionally sound.' },
+                        { label: 'Driver Maturity', score: 'Low', analysis: 'Active development causing breaking changes weekly.' },
+                        { label: 'Eco-system (Metal)', score: 'Medium', analysis: 'TT-Metalium is powerful but has a steep learning curve.' },
+                        { label: 'Cost Efficiency', score: 'High', analysis: 'Unbeatable $/FLOP at the hardware level.' }
+                    ],
+                    scrollTo(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
+                };
+            };
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('tenstorrentPage', window.tenstorrentPage);
+            });
         }
     </script>
 </body>

@@ -114,34 +114,51 @@ function app() {
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
 
-            // Extract main content (look for main, #main-content, or body content)
-            let mainContent = doc.querySelector('main') ||
-                doc.querySelector('#main-content') ||
-                doc.querySelector('body');
-
-            // Also get header content if it exists (for hero sections)
-            const header = doc.querySelector('header');
-
-            // Build the content (combine header + main if both exist)
             let contentHtml = '';
-            if (header) {
-                contentHtml += header.outerHTML;
-            }
-            if (mainContent) {
-                // If it's the body, get innerHTML, otherwise get outerHTML
-                if (mainContent.tagName === 'BODY') {
-                    // Filter out nav and footer from body
-                    const nav = mainContent.querySelector('nav');
-                    const footer = mainContent.querySelector('footer');
-                    const scripts = mainContent.querySelectorAll('script');
 
-                    if (nav) nav.remove();
-                    if (footer) footer.remove();
-                    scripts.forEach(s => s.remove());
+            // First, look for an Alpine wrapper div with x-data attribute
+            // This is the preferred approach as it preserves Alpine component scope
+            const alpineWrapper = doc.querySelector('body > div[x-data]');
 
-                    contentHtml = mainContent.innerHTML;
-                } else {
-                    contentHtml += mainContent.outerHTML;
+            if (alpineWrapper) {
+                // Found an Alpine wrapper - use it but remove nav for SPA (we have our own nav)
+                const nav = alpineWrapper.querySelector('nav');
+                const footer = alpineWrapper.querySelector('footer');
+
+                if (nav) nav.remove();
+                if (footer) footer.remove();
+
+                // Get the wrapper's outer HTML so x-data is preserved
+                contentHtml = alpineWrapper.outerHTML;
+            } else {
+                // Fallback: Extract main content (look for main, #main-content, or body content)
+                let mainContent = doc.querySelector('main') ||
+                    doc.querySelector('#main-content') ||
+                    doc.querySelector('body');
+
+                // Also get header content if it exists (for hero sections)
+                const header = doc.querySelector('header');
+
+                // Build the content (combine header + main if both exist)
+                if (header) {
+                    contentHtml += header.outerHTML;
+                }
+                if (mainContent) {
+                    // If it's the body, get innerHTML, otherwise get outerHTML
+                    if (mainContent.tagName === 'BODY') {
+                        // Filter out nav and footer from body
+                        const nav = mainContent.querySelector('nav');
+                        const footer = mainContent.querySelector('footer');
+                        const scripts = mainContent.querySelectorAll('script');
+
+                        if (nav) nav.remove();
+                        if (footer) footer.remove();
+                        scripts.forEach(s => s.remove());
+
+                        contentHtml = mainContent.innerHTML;
+                    } else {
+                        contentHtml += mainContent.outerHTML;
+                    }
                 }
             }
 
@@ -150,25 +167,27 @@ function app() {
             pageContent.innerHTML = contentHtml;
             pageContent.classList.add('slide-in');
 
-            // Re-run any inline scripts from the loaded page
-            const scripts = doc.querySelectorAll('script');
-            scripts.forEach(script => {
-                if (script.src) {
-                    // External script - we may need to load it
-                    if (!document.querySelector(`script[src="${script.src}"]`)) {
-                        const newScript = document.createElement('script');
-                        newScript.src = script.src;
-                        document.body.appendChild(newScript);
+            // Initialize Alpine.js on the newly injected content
+            // The page component functions are already loaded via components.js
+            // Alpine.initTree() will find the x-data attribute and initialize the component
+            if (typeof Alpine !== 'undefined') {
+                // Use a small timeout to ensure DOM is fully updated
+                setTimeout(() => {
+                    Alpine.initTree(pageContent);
+                }, 10);
+            }
+
+            // Handle anchor links (href="#section") in dynamically loaded content
+            // These need to scroll to the section instead of changing URL hash
+            pageContent.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = anchor.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
                     }
-                } else if (script.textContent) {
-                    // Inline script - execute it
-                    try {
-                        const func = new Function(script.textContent);
-                        func();
-                    } catch (e) {
-                        console.warn('Script execution error:', e);
-                    }
-                }
+                });
             });
 
             // Extract and process subpage navigation
@@ -232,10 +251,10 @@ function app() {
         },
 
         handleSubpageNav(item) {
-            // Dispatch a click event to the corresponding tab in the loaded page
-            const tabBtn = document.querySelector(`#page-content [data-tab="${item.tabId}"]`);
-            if (tabBtn) {
-                tabBtn.click();
+            // Scroll directly to the section by ID
+            const section = document.getElementById(item.tabId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
             }
         }
     };
