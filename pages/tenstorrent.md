@@ -2,7 +2,9 @@
 
 **Technischer Statusbericht 2025–2026**
 
-Dieser Bericht untersucht die p150a RISC-V-Infrastruktur von Tenstorrent. Der Fokus liegt auf der Hardware-Effizienz, der Skalierbarkeit durch Standardprotokolle und dem aktuellen Integrationsstand in bestehende Software-Ökosysteme.
+Diese Seite beschäftigt sich mit der p150a RISC-V-Infrastruktur von Tenstorrent. Der Fokus liegt auf der Hardware-Effizienz, der Skalierbarkeit durch Standardprotokolle und dem aktuellen Integrationsstand in bestehende Software-Ökosysteme.
+
+![Tenstorrent Blackhole Architektur](../img/tenstorrent.jpg)
 
 ## **Architektur und Skalierbarkeit**
 
@@ -24,8 +26,9 @@ Zusammenfassung technischer Rückmeldungen aus Laborumgebungen und von frühen E
 **Technisches Review (Interimsbericht)**
 
 > „Die Latenzzeit für das erste Token ist gering. Der Software-Stack befindet sich jedoch noch in einem frühen Stadium; bei hoher Telemetrie-Last treten Instabilitäten auf Treiberebene auf.“  
-> — Pro Hi-Tech Labs  
-> **Infrastruktur-Analyse (Betriebswerte)**
+> — Pro Hi-Tech Labs
+
+**Infrastruktur-Analyse (Betriebswerte)**
 
 > „Die Leistungsaufnahme im Leerlauf beträgt ca. 120 W pro Karte. Dies führt zu einer suboptimalen Energieeffizienz in Szenarien, in denen das System auf neue Rechenaufgaben warten muss.“  
 > — SME Cluster Insights
