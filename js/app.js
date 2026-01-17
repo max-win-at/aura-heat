@@ -1,261 +1,347 @@
 /**
  * AuraHeat SPA Application
- * Handles navigation, content loading, and subpage menu injection
+ * Handles navigation, content loading, and dependency injection
  */
-function app() {
-    return {
-        currentPage: null,
-        mobileMenuOpen: false,
-        subpageNavItems: [],
-        currentSubpageNav: null,
 
-        init() {
-            // Handle GitHub Pages 404.html SPA fallback
-            // 404.html sends just the route path relative to base (e.g., "tenstorrent" or "aura-heat")
-            const urlParams = new URLSearchParams(window.location.search);
-            const redirectedPath = urlParams.get('p');
+// Configuration and State
+const config = {
+  pagesPath: "pages/",
+  defaultPage: null,
+};
 
-            if (redirectedPath) {
-                // Extract page name from the route path
-                const pageName = this.extractPageFromPath(redirectedPath);
+// Listen for Alpine initialization to register components (IoC Container)
+document.addEventListener("alpine:init", () => {
+  //-----------------------------------------------------------------------------
+  // Global App Component
+  //-----------------------------------------------------------------------------
+  Alpine.data("app", () => ({
+    currentPage: null,
+    pages: [],
+    mobileMenuOpen: false,
+    subpageNavItems: [],
 
-                // Clean up the URL using History API
-                const cleanUrl = window.location.origin + window.location.pathname +
-                    (pageName ? '#' + pageName : '');
-                window.history.replaceState(null, '', cleanUrl);
+    async init() {
+      // Fetch Pages Configuration
+      try {
+        const pagesRes = await fetch("pages/_pages.json");
+        if (pagesRes.ok) {
+          this.pages = await pagesRes.json();
+        } else {
+          console.error("Failed to load pages configuration");
+        }
+      } catch (e) {
+        console.error("Error loading pages:", e);
+      }
 
-                if (pageName) {
-                    this.loadPage(pageName);
-                    return;
-                }
-            }
+      // Handle GitHub Pages 404.html SPA fallback
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectedPath = urlParams.get("p");
 
-            // Check URL hash for initial page
-            const hash = window.location.hash.slice(1);
-            if (hash && this.isValidPage(hash)) {
-                this.loadPage(hash);
-            }
+      if (redirectedPath) {
+        const pageName = this.extractPageFromPath(redirectedPath);
+        const cleanUrl =
+          window.location.origin +
+          window.location.pathname +
+          (pageName ? "#" + pageName : "");
+        window.history.replaceState(null, "", cleanUrl);
 
-            // Listen for hash changes
-            window.addEventListener('hashchange', () => {
-                const newHash = window.location.hash.slice(1);
-                if (newHash && newHash !== this.currentPage) {
-                    this.loadPage(newHash);
-                } else if (!newHash) {
-                    this.goHome();
-                }
-            });
-        },
+        if (pageName) {
+          this.loadPage(pageName);
+          return;
+        }
+      }
 
-        /**
-         * Extract page name from a path like "/aura-heat" or "/pages/aura-heat"
-         */
-        extractPageFromPath(path) {
-            // Remove leading/trailing slashes
-            const cleanPath = path.replace(/^\/+|\/+$/g, '');
+      // Check URL hash for initial page
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        this.loadPage(hash);
+      }
 
-            // Handle direct page paths like "aura-heat" or "tenstorrent"
-            if (this.isValidPage(cleanPath)) {
-                return cleanPath;
-            }
+      // Listen for hash changes
+      window.addEventListener("hashchange", () => {
+        const newHash = window.location.hash.slice(1);
+        if (newHash && newHash !== this.currentPage) {
+          this.loadPage(newHash);
+        } else if (!newHash) {
+          this.goHome();
+        }
+      });
+    },
 
-            // Handle paths like "pages/aura-heat" or "pages/aura-heat/index.html"
-            const pagesMatch = cleanPath.match(/^pages\/([^\/]+)/);
-            if (pagesMatch && this.isValidPage(pagesMatch[1])) {
-                return pagesMatch[1];
-            }
+    extractPageFromPath(path) {
+      return path.replace(/^\/+|\/+$/g, "").replace(/^pages\//, "");
+    },
 
-            return null;
-        },
+    goHome() {
+      this.currentPage = null;
+      this.subpageNavItems = [];
+      window.location.hash = "";
+      document.getElementById("page-content").innerHTML = "";
+    },
 
-        /**
-         * Check if a page name is valid
-         */
-        isValidPage(pageName) {
-            const validPages = ['aura-heat', 'tenstorrent'];
-            return validPages.includes(pageName);
-        },
+    async loadPage(pageName) {
+      this.currentPage = pageName;
+      window.location.hash = pageName;
 
-        goHome() {
-            this.currentPage = null;
-            this.subpageNavItems = [];
-            this.currentSubpageNav = null;
-            window.location.hash = '';
-            document.getElementById('page-content').innerHTML = '';
-            this.updateDesktopSubpageNav();
-        },
+      try {
+        // Fetch Markdown content
+        const response = await fetch(`${config.pagesPath}${pageName}.md`);
+        if (!response.ok) throw new Error(`Page ${pageName} not found`);
 
-        async loadPage(pageName) {
-            this.currentPage = pageName;
-            window.location.hash = pageName;
+        const markdown = await response.text();
 
-            try {
-                const response = await fetch(`pages/${pageName}/index.html`);
-                if (!response.ok) throw new Error('Page not found');
+        // Parse and Sanitize
+        const html = window.marked.parse(markdown);
+        // Configure DOMPurify to allow specific tags and attributes for Alpine and Styles
+        const cleanHtml = window.DOMPurify.sanitize(html, {
+          ADD_TAGS: ["iframe", "style", "script"], // Be careful with script, but needed if we want custom JS in MD (unlikely)
+          ADD_ATTR: [
+            "x-data",
+            "x-init",
+            "x-show",
+            "x-bind",
+            "x-on",
+            "x-text",
+            "x-html",
+            "x-model",
+            "x-for",
+            "x-effect",
+            "x-ref",
+            "x-cloak",
+            "x-ignore",
+            "@click",
+            ":class",
+            ":style",
+            ":data-active",
+            "class",
+            "style",
+            "data-tab",
+            "data-active",
+          ],
+          FORBID_TAGS: ["script"], // Actually forbid script tags for security, but allow Alpine attributes
+          FORBID_ATTR: [],
+        });
 
-                const html = await response.text();
-                this.processPageContent(html, pageName);
-            } catch (error) {
-                console.error('Failed to load page:', error);
-                document.getElementById('page-content').innerHTML = `
+        // Apply Design System Styles
+        const styledHtml = this.applyMarkdownStyles(cleanHtml);
+
+        // Inject into DOM with Container Wrapper
+        const pageContent = document.getElementById("page-content");
+        pageContent.innerHTML = `
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
+                ${styledHtml}
+            </div>
+        `;
+        pageContent.classList.add("slide-in");
+
+        // Initialize Alpine on new content
+        if (typeof Alpine !== "undefined") {
+          setTimeout(() => {
+            Alpine.initTree(pageContent);
+          }, 10);
+        }
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (error) {
+        console.error("Failed to load page:", error);
+        document.getElementById("page-content").innerHTML = `
                     <div class="welcome">
                         <h1 style="color: var(--color-slate-700);">Page Not Found</h1>
-                        <p>Could not load ${pageName}/index.html</p>
-                        <button class="welcome-btn welcome-btn-primary" onclick="Alpine.store('app').goHome()">
+                        <p>Could not load content for ${pageName}</p>
+                        <button class="welcome-btn welcome-btn-primary" @click="goHome()">
                             Go Home
                         </button>
                     </div>
                 `;
+      }
+    },
+
+    handleSubpageNav(item) {
+      // Placeholder if we re-introduce subpage nav
+      console.log("Navigating to", item);
+    },
+
+    applyMarkdownStyles(html) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+
+      const styles = {
+        h1: "text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-8 text-slate-900",
+        h2: "text-3xl md:text-4xl font-bold text-slate-900 mb-6 mt-12",
+        h3: "text-xl font-bold text-slate-900 mb-4 mt-8",
+        h4: "text-lg font-bold text-slate-900 mb-2 mt-6 uppercase tracking-wider text-orange-600",
+        p: "text-lg text-slate-600 leading-relaxed mb-6",
+        ul: "list-disc list-outside space-y-2 mb-8 text-slate-600 pl-4",
+        ol: "list-decimal list-outside space-y-2 mb-8 text-slate-600 pl-4",
+        li: "pl-2 marker:text-orange-500",
+        a: "text-orange-600 hover:text-orange-700 font-medium underline underline-offset-4 transition",
+        blockquote:
+          "bg-white border-l-4 border-orange-500 pl-6 pr-6 py-6 my-8 text-slate-800 rounded-r-xl shadow-sm hover:shadow-md transition-shadow duration-300 [&>:last-child]:mb-0",
+        table:
+          "w-full text-left border-collapse my-8 rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white",
+        th: "bg-slate-100 p-4 font-bold text-slate-900 border-b border-slate-200 uppercase text-xs tracking-wider",
+        td: "p-4 border-b border-slate-100 text-slate-600",
+        img: "rounded-xl shadow-lg my-8 max-w-full h-auto",
+        code: "bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded text-sm font-mono border border-slate-200",
+        pre: "bg-slate-900 text-slate-200 p-6 rounded-xl overflow-x-auto mb-8 text-sm",
+        hr: "my-12 border-slate-200 border-t-2",
+      };
+
+      // Heuristic: Wrap "Key: Value" lists in a definition list style or similar if detectable?
+      // No, kept simple.
+
+      // Apply styles to elements that don't already have classes
+      Object.keys(styles).forEach((tag) => {
+        doc.querySelectorAll(tag).forEach((el) => {
+          const existingClasses = el.className;
+          const defaultClasses = styles[tag];
+
+          // Append styles to existing ones to support custom overrides
+          el.className = existingClasses
+            ? `${existingClasses} ${defaultClasses}`
+            : defaultClasses;
+
+          // SPECIAL HANDLING: Elements inside Blockquotes
+          if (el.parentElement.tagName === "BLOCKQUOTE") {
+            // 1. Headings inside blockquotes: Remove large top margins, adjust color
+            if (["H1", "H2", "H3", "H4"].includes(tag.toUpperCase())) {
+              el.classList.remove("mt-12", "mt-8", "mt-6", "text-slate-900"); // Remove default spacing/color
+              el.classList.add("mt-0", "mb-4", "text-orange-600"); // Compact spacing, themed color
             }
-        },
+            // 2. Button links/paragraphs inside blockquotes can be tweaked here if needed
+          }
 
-        processPageContent(html, pageName) {
-            // Create a DOM parser
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
+          // Fix for pre > code to avoid double styling
+          if (tag === "code" && el.parentElement.tagName === "PRE") {
+            el.className = "bg-transparent text-inherit p-0 border-0";
+          }
+        });
+      });
 
-            let contentHtml = '';
+      return doc.body.innerHTML;
+    },
+  }));
 
-            // First, look for an Alpine wrapper div with x-data attribute
-            // This is the preferred approach as it preserves Alpine component scope
-            const alpineWrapper = doc.querySelector('body > div[x-data]');
+  //-----------------------------------------------------------------------------
+  // Page Components (Moved from components.js)
+  //-----------------------------------------------------------------------------
 
-            if (alpineWrapper) {
-                // Found an Alpine wrapper - use it but remove nav for SPA (we have our own nav)
-                const nav = alpineWrapper.querySelector('nav');
-                const footer = alpineWrapper.querySelector('footer');
+  Alpine.data("auraHeatPage", () => ({
+    mobileMenuOpen: false,
+    activeVision: null,
+    activeFlow: null,
+    selectedSpec: "M",
+    buildingType: "house",
+    currentCost: 2500,
 
-                if (nav) nav.remove();
-                if (footer) footer.remove();
+    // Calculated values
+    gasTotal: 0,
+    hpTotal: 0,
+    auraTotal: 0,
+    totalSavings: 0,
+    maxCost: 50000,
 
-                // Get the wrapper's outer HTML so x-data is preserved
-                contentHtml = alpineWrapper.outerHTML;
-            } else {
-                // Fallback: Extract main content (look for main, #main-content, or body content)
-                let mainContent = doc.querySelector('main') ||
-                    doc.querySelector('#main-content') ||
-                    doc.querySelector('body');
+    specs: {
+      S: {
+        kw: "5 kW",
+        modules: "5",
+        target: "Etagenwohnung (ca. 80m²)",
+        invest: "< 6.000 €",
+      },
+      M: {
+        kw: "8 kW",
+        modules: "8",
+        target: "Einfamilienhaus (ca. 150m²)",
+        invest: "< 8.000 €",
+      },
+      XL: {
+        kw: "30 kW",
+        modules: "30",
+        target: "Mehrfamilienhaus (ca. 400m²)",
+        invest: "Auf Anfrage",
+      },
+    },
 
-                // Also get header content if it exists (for hero sections)
-                const header = doc.querySelector('header');
+    efficiencyData: [
+      { label: "10°C", aura: 100, heatpump: 90 },
+      { label: "5°C", aura: 100, heatpump: 80 },
+      { label: "0°C", aura: 100, heatpump: 65 },
+      { label: "-5°C", aura: 100, heatpump: 50 },
+      { label: "-10°C", aura: 100, heatpump: 35 },
+      { label: "-15°C", aura: 100, heatpump: 20 },
+    ],
 
-                // Build the content (combine header + main if both exist)
-                if (header) {
-                    contentHtml += header.outerHTML;
-                }
-                if (mainContent) {
-                    // If it's the body, get innerHTML, otherwise get outerHTML
-                    if (mainContent.tagName === 'BODY') {
-                        // Filter out nav and footer from body
-                        const nav = mainContent.querySelector('nav');
-                        const footer = mainContent.querySelector('footer');
-                        const scripts = mainContent.querySelectorAll('script');
+    init() {
+      this.calculateSavings();
+    },
 
-                        if (nav) nav.remove();
-                        if (footer) footer.remove();
-                        scripts.forEach(s => s.remove());
+    scrollTo(sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    },
 
-                        contentHtml = mainContent.innerHTML;
-                    } else {
-                        contentHtml += mainContent.outerHTML;
-                    }
-                }
-            }
+    calculateSavings() {
+      let installGas = 12000;
+      let installHP = 25000;
+      let installAura = 8000;
 
-            // Inject content
-            const pageContent = document.getElementById('page-content');
-            pageContent.innerHTML = contentHtml;
-            pageContent.classList.add('slide-in');
+      if (this.buildingType === "flat") {
+        installGas = 8000;
+        installHP = 18000;
+        installAura = 5000;
+      }
+      if (this.buildingType === "large") {
+        installGas = 18000;
+        installHP = 40000;
+        installAura = 15000;
+      }
 
-            // Initialize Alpine.js on the newly injected content
-            // The page component functions are already loaded via components.js
-            // Alpine.initTree() will find the x-data attribute and initialize the component
-            if (typeof Alpine !== 'undefined') {
-                // Use a small timeout to ensure DOM is fully updated
-                setTimeout(() => {
-                    Alpine.initTree(pageContent);
-                }, 10);
-            }
+      this.gasTotal = installGas + parseInt(this.currentCost) * 10 + 2000;
+      this.hpTotal = installHP + parseInt(this.currentCost) * 0.7 * 10 + 1500;
+      this.auraTotal = installAura;
 
-            // Handle anchor links (href="#section") in dynamically loaded content
-            // These need to scroll to the section instead of changing URL hash
-            pageContent.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = anchor.getAttribute('href').substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
+      this.totalSavings =
+        Math.max(this.gasTotal, this.hpTotal) - this.auraTotal;
+      this.maxCost = Math.max(this.gasTotal, this.hpTotal) * 1.1;
+    },
+  }));
 
-            // Extract and process subpage navigation
-            this.extractSubpageNav(doc, pageName);
+  Alpine.data("tenstorrentPage", () => ({
+    mobileMenuOpen: false,
 
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        },
+    readinessMetrics: [
+      {
+        label: "Silicon Reliability",
+        score: "High",
+        analysis: "Hardware is stable, mass-produced, and functionally sound.",
+      },
+      {
+        label: "Driver Maturity",
+        score: "Low",
+        analysis: "Active development causing breaking changes weekly.",
+      },
+      {
+        label: "Eco-system (Metal)",
+        score: "Medium",
+        analysis: "TT-Metalium is powerful but has a steep learning curve.",
+      },
+      {
+        label: "Cost Efficiency",
+        score: "High",
+        analysis: "Unbeatable $/FLOP at the hardware level.",
+      },
+    ],
 
-        extractSubpageNav(doc, pageName) {
-            // Clear previous subpage nav
-            this.subpageNavItems = [];
+    scrollTo(sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+  }));
 
-            // Look for navigation items in the loaded page
-            const navContainer = doc.querySelector('#nav-container') ||
-                doc.querySelector('nav .hidden.md\\:flex') ||
-                doc.querySelector('nav');
-
-            if (navContainer) {
-                // Find buttons or links that look like tab navigation
-                const navItems = navContainer.querySelectorAll('[data-tab], .tab-btn');
-
-                navItems.forEach(item => {
-                    const label = item.textContent.trim();
-                    const tabId = item.dataset.tab || item.getAttribute('href');
-
-                    // Skip if it's defined in root nav already
-                    if (label.toLowerCase() === 'auraheat' || label.toLowerCase() === 'tenstorrent') {
-                        return;
-                    }
-
-                    this.subpageNavItems.push({
-                        label: label,
-                        tabId: tabId,
-                        page: pageName,
-                        icon: '<svg class="nav-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>'
-                    });
-                });
-            }
-
-            this.updateDesktopSubpageNav();
-        },
-
-        updateDesktopSubpageNav() {
-            const subpageNavContainer = document.getElementById('subpage-nav');
-            if (!subpageNavContainer) return;
-
-            if (this.subpageNavItems.length === 0) {
-                subpageNavContainer.innerHTML = '';
-                return;
-            }
-
-            const html = this.subpageNavItems.map(item => `
-                <button class="subpage-nav-item" data-tab="${item.tabId}" onclick="document.body.__x.$data.handleSubpageNav(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-                    ${item.icon}
-                    <span>${item.label}</span>
-                </button>
-            `).join('');
-
-            subpageNavContainer.innerHTML = html;
-        },
-
-        handleSubpageNav(item) {
-            // Scroll directly to the section by ID
-            const section = document.getElementById(item.tabId);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    };
-}
+  console.log("[app.js] IoC Container initialized, components registered.");
+});

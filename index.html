@@ -1,182 +1,176 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AURA HEAT | Intelligent Heating Infrastructure</title>
-    <meta name="description" content="AURA HEAT - Transforming server waste heat into sustainable heating solutions">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta
+      name="description"
+      content="AURA HEAT - Transforming server waste heat into sustainable heating solutions"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23ea580c'/%3E%3Ctext x='16' y='22' font-family='Inter, system-ui, sans-serif' font-size='14' font-weight='900' font-style='italic' fill='white' text-anchor='middle'%3EAH%3C/text%3E%3C/svg%3E"
+    />
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Styles (custom overrides) -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css" />
 
     <!-- Page Components (must load before Alpine.js) -->
-    <script src="js/components.js"></script>
+    <!-- ESM Modules for Markdown Rendering -->
+    <script type="module">
+      import { marked } from "https://cdn.jsdelivr.net/npm/marked@15.0.0/lib/marked.esm.js";
+      import DOMPurify from "https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.es.mjs";
+
+      // Expose to window for app.js to use
+      window.marked = marked;
+      window.DOMPurify = DOMPurify;
+    </script>
 
     <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"
+    ></script>
 
     <!-- htmx -->
     <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js"></script>
 
+    <!-- Markdown Support -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+
     <!-- App -->
     <script src="js/app.js"></script>
-</head>
+  </head>
 
-<body x-data="app()" x-init="init()">
+  <body x-data="app">
     <!-- Navigation -->
     <nav class="nav">
-        <div class="nav-container">
-            <!-- Logo -->
-            <a href="#" class="logo" @click.prevent="goHome()">
-                AURA<span class="logo-accent">HEAT</span>
-            </a>
+      <div class="nav-container">
+        <!-- Logo -->
+        <a href="#" class="logo" @click.prevent="goHome()">
+          AURA<span class="logo-accent">HEAT</span>
+        </a>
 
-            <!-- Desktop Navigation -->
-            <div class="nav-desktop">
-                <button class="nav-btn" :class="{ 'active': currentPage === 'aura-heat' }"
-                    @click="loadPage('aura-heat')">
-                    <svg class="nav-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path
-                            d="M12 2c1 3 2.5 3.5 3.5 4.5A5 5 0 0 1 17 10a5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 1.5-3.5C9.5 5.5 11 5 12 2Z" />
-                        <path d="M12 15v7" />
-                        <path d="M8 22h8" />
-                    </svg>
-                    <span>AuraHeat</span>
-                </button>
-                <button class="nav-btn" :class="{ 'active': currentPage === 'tenstorrent' }"
-                    @click="loadPage('tenstorrent')">
-                    <svg class="nav-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
-                        <rect x="9" y="9" width="6" height="6" />
-                        <line x1="9" y1="1" x2="9" y2="4" />
-                        <line x1="15" y1="1" x2="15" y2="4" />
-                        <line x1="9" y1="20" x2="9" y2="23" />
-                        <line x1="15" y1="20" x2="15" y2="23" />
-                        <line x1="20" y1="9" x2="23" y2="9" />
-                        <line x1="20" y1="14" x2="23" y2="14" />
-                        <line x1="1" y1="9" x2="4" y2="9" />
-                        <line x1="1" y1="14" x2="4" y2="14" />
-                    </svg>
-                    <span>Tenstorrent</span>
-                </button>
-
-                <!-- Subpage nav items will be injected here -->
-                <div id="subpage-nav"></div>
-            </div>
-
-            <!-- Mobile Menu Button -->
-            <button class="mobile-menu-btn" @click="mobileMenuOpen = !mobileMenuOpen">
-                <span x-text="mobileMenuOpen ? '✕' : '☰'"></span>
+        <!-- Desktop Navigation -->
+        <div class="nav-desktop">
+          <template x-for="page in pages" :key="page.id">
+            <button
+              class="nav-btn"
+              :class="{ 'active': currentPage === page.id }"
+              @click="loadPage(page.id)"
+            >
+              <div
+                class="nav-btn-icon-wrapper"
+                x-html="page.icon || '<svg class=\'nav-btn-icon\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'></path><polyline points=\'14 2 14 8 20 8\'></polyline><line x1=\'16\' y1=\'13\' x2=\'8\' y2=\'13\'></line><line x1=\'16\' y1=\'17\' x2=\'8\' y2=\'17\'></line><polyline points=\'10 9 9 9 8 9\'></polyline></svg>'"
+              ></div>
+              <span x-text="page.title"></span>
             </button>
+          </template>
+
+          <!-- Subpage nav items will be injected here -->
+          <div id="subpage-nav"></div>
         </div>
 
-        <!-- Mobile Menu -->
-        <div class="mobile-menu" :class="{ 'open': mobileMenuOpen }">
-            <button class="mobile-nav-item" :class="{ 'active': currentPage === 'aura-heat' }"
-                @click="loadPage('aura-heat'); mobileMenuOpen = false">
-                <svg class="nav-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path
-                        d="M12 2c1 3 2.5 3.5 3.5 4.5A5 5 0 0 1 17 10a5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 1.5-3.5C9.5 5.5 11 5 12 2Z" />
-                    <path d="M12 15v7" />
-                    <path d="M8 22h8" />
-                </svg>
-                <span>AuraHeat</span>
-            </button>
-            <button class="mobile-nav-item" :class="{ 'active': currentPage === 'tenstorrent' }"
-                @click="loadPage('tenstorrent'); mobileMenuOpen = false">
-                <svg class="nav-btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
-                    <rect x="9" y="9" width="6" height="6" />
-                    <line x1="9" y1="1" x2="9" y2="4" />
-                    <line x1="15" y1="1" x2="15" y2="4" />
-                    <line x1="9" y1="20" x2="9" y2="23" />
-                    <line x1="15" y1="20" x2="15" y2="23" />
-                    <line x1="20" y1="9" x2="23" y2="9" />
-                    <line x1="20" y1="14" x2="23" y2="14" />
-                    <line x1="1" y1="9" x2="4" y2="9" />
-                    <line x1="1" y1="14" x2="4" y2="14" />
-                </svg>
-                <span>Tenstorrent</span>
-            </button>
+        <!-- Mobile Menu Button -->
+        <button
+          class="mobile-menu-btn"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+        >
+          <span x-text="mobileMenuOpen ? '✕' : '☰'"></span>
+        </button>
+      </div>
 
-            <!-- Mobile subpage nav items -->
-            <template x-if="subpageNavItems.length > 0">
-                <div>
-                    <div class="mobile-nav-divider"></div>
-                    <template x-for="item in subpageNavItems" :key="item.label">
-                        <button class="mobile-nav-item" @click="handleSubpageNav(item); mobileMenuOpen = false"
-                            x-html="item.icon + '<span>' + item.label + '</span>'"></button>
-                    </template>
-                </div>
+      <!-- Mobile Menu -->
+      <div class="mobile-menu" :class="{ 'open': mobileMenuOpen }">
+        <template x-for="page in pages" :key="page.id">
+          <button
+            class="mobile-nav-item"
+            :class="{ 'active': currentPage === page.id }"
+            @click="loadPage(page.id); mobileMenuOpen = false"
+          >
+            <div
+              class="nav-btn-icon-wrapper"
+              x-html="page.icon || '<svg class=\'nav-btn-icon\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'></path><polyline points=\'14 2 14 8 20 8\'></polyline><line x1=\'16\' y1=\'13\' x2=\'8\' y2=\'13\'></line><line x1=\'16\' y1=\'17\' x2=\'8\' y2=\'17\'></line><polyline points=\'10 9 9 9 8 9\'></polyline></svg>'"
+            ></div>
+            <span x-text="page.title"></span>
+          </button>
+        </template>
+
+        <!-- Mobile subpage nav items -->
+        <template x-if="subpageNavItems.length > 0">
+          <div>
+            <div class="mobile-nav-divider"></div>
+            <template x-for="item in subpageNavItems" :key="item.label">
+              <button
+                class="mobile-nav-item"
+                @click="handleSubpageNav(item); mobileMenuOpen = false"
+                x-html="item.icon + '<span>' + item.label + '</span>'"
+              ></button>
             </template>
-        </div>
+          </div>
+        </template>
+      </div>
     </nav>
 
     <!-- Main Content -->
     <main class="main">
-        <div id="main-content">
-            <!-- Welcome Screen (shown when no page loaded) -->
-            <div class="welcome slide-in" x-show="!currentPage">
-                <div class="welcome-badge">Intelligent Heating Infrastructure</div>
-                <h1>Welcome to AURA<span class="brand-heat">HEAT</span></h1>
-                <p>
-                    Transforming server waste heat into sustainable heating solutions.
-                    Explore our projects and discover how we're building the future of energy-efficient computing.
-                </p>
-                <div class="welcome-cta">
-                    <button class="welcome-btn welcome-btn-primary" @click="loadPage('aura-heat')">
-                        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M12 2c1 3 2.5 3.5 3.5 4.5A5 5 0 0 1 17 10a5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 1.5-3.5C9.5 5.5 11 5 12 2Z" />
-                            <path d="M12 15v7" />
-                            <path d="M8 22h8" />
-                        </svg>
-                        Explore AuraHeat
-                    </button>
-                    <button class="welcome-btn welcome-btn-secondary" @click="loadPage('tenstorrent')">
-                        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2" />
-                            <rect x="9" y="9" width="6" height="6" />
-                        </svg>
-                        View Tenstorrent
-                    </button>
-                </div>
-            </div>
-
-            <!-- Loaded content will appear here -->
-            <div id="page-content" x-show="currentPage"></div>
+      <div id="main-content">
+        <!-- Welcome Screen (shown when no page loaded) -->
+        <div class="welcome slide-in" x-show="!currentPage">
+          <div class="welcome-badge">Intelligent Heating Infrastructure</div>
+          <h1>Welcome to AURA<span class="brand-heat">HEAT</span></h1>
+          <p>
+            Transforming server waste heat into sustainable heating solutions.
+            Explore our projects and discover how we're building the future of
+            energy-efficient computing.
+          </p>
+          <div class="welcome-cta">
+            <template x-for="page in pages" :key="page.id">
+              <button
+                class="welcome-btn welcome-btn-secondary"
+                @click="loadPage(page.id)"
+              >
+                <div
+                  class="nav-btn-icon-wrapper"
+                  x-html="page.icon || '<svg width=\'20\' height=\'20\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><path d=\'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z\'></path><polyline points=\'14 2 14 8 20 8\'></polyline><line x1=\'16\' y1=\'13\' x2=\'8\' y2=\'13\'></line><line x1=\'16\' y1=\'17\' x2=\'8\' y2=\'17\'></line><polyline points=\'10 9 9 9 8 9\'></polyline></svg>'"
+                ></div>
+                <span x-text="'View ' + page.title"></span>
+              </button>
+            </template>
+          </div>
         </div>
+
+        <!-- Loaded content will appear here -->
+        <div id="page-content" x-show="currentPage"></div>
+      </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <div class="footer-logo">AH</div>
-                <span class="footer-brand-text">Aura Heat</span>
-            </div>
-            <div class="footer-meta">
-                <div class="footer-copyright">© Aura Heat Project Group</div>
-                <div class="footer-disclaimer">Aided by AI</div>
-            </div>
+      <div class="footer-container">
+        <div class="footer-brand">
+          <div class="footer-logo">AH</div>
+          <span class="footer-brand-text">Aura Heat</span>
         </div>
+        <div class="footer-meta">
+          <div class="footer-copyright">© Aura Heat Project Group</div>
+          <div class="footer-disclaimer">Aided by AI</div>
+        </div>
+      </div>
     </footer>
-</body>
-
+  </body>
 </html>
