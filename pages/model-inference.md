@@ -8,6 +8,8 @@
 
 Für Informatiker stellt die Inferenz von Modellen wie **GPT-OSS 120b** oder **DeepSeek R1** über Weitverkehrsnetze (WAN) eine Herausforderung an die Physik der Datenübertragung dar.
 
+![Modell-Inferenz Architektur](../img/model-inference.jpg)
+
 ### 1. Parallelisierungsstrategien für Glasfaser-Netze
 
 Die Verteilung über Standorte hinweg wird primär durch die Latenz limitiert (20–100 ms im WAN).
@@ -18,6 +20,8 @@ Die Verteilung über Standorte hinweg wird primär durch die Latenz limitiert (2
   Speziell für **Mixture-of-Experts (MoE)** Modelle wie DeepSeek R1 und GPT-OSS 120b. Da pro Rechenschritt nur ein Bruchteil der Parameter (z. B. 5,1 Mrd. von 120 Mrd. bei GPT-OSS) aktiv ist, sinkt die zu übertragende Datenmenge drastisch.
 - **Tensor Parallelism (TP):**
   Ist aufgrund der notwendigen Synchronisation nach jeder Operation strikt auf die Kommunikation innerhalb eines Servers (NVLink) beschränkt.
+
+![Modell-Inferenz Architektur](../img/model-inference-petals.jpg)
 
 ### 2. Konkrete Infrastruktur-Lösung: Petals
 
