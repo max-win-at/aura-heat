@@ -122,8 +122,12 @@ document.addEventListener("alpine:init", () => {
           FORBID_ATTR: [],
         });
 
+        // Fix relative paths for SPA (GitHub Pages root)
+        // Markdown files in /pages/ use relative paths like ../img/ which break at root
+        const fixedHtml = cleanHtml.replace(/src="\.\.\//g, 'src="');
+
         // Apply Design System Styles
-        const styledHtml = this.applyMarkdownStyles(cleanHtml);
+        const styledHtml = this.applyMarkdownStyles(fixedHtml);
 
         // Inject into DOM with Container Wrapper
         const pageContent = document.getElementById("page-content");
