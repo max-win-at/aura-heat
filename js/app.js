@@ -19,6 +19,8 @@ document.addEventListener("alpine:init", () => {
     pages: [],
     mobileMenuOpen: false,
     subpageNavItems: [],
+    lightboxOpen: false,
+    lightboxImage: "",
 
     async init() {
       // Fetch Pages Configuration
@@ -145,6 +147,9 @@ document.addEventListener("alpine:init", () => {
           }, 10);
         }
 
+        // Setup Lightbox for images
+        this.setupLightbox();
+
         // Scroll to top
         window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (error) {
@@ -164,6 +169,32 @@ document.addEventListener("alpine:init", () => {
     handleSubpageNav(item) {
       // Placeholder if we re-introduce subpage nav
       console.log("Navigating to", item);
+    },
+
+    openLightbox(src) {
+      this.lightboxImage = src;
+      this.lightboxOpen = true;
+      document.body.style.overflow = "hidden"; // Prevent scrolling
+    },
+
+    closeLightbox() {
+      this.lightboxOpen = false;
+      this.lightboxImage = "";
+      document.body.style.overflow = ""; // Restore scrolling
+    },
+
+    setupLightbox() {
+      // Find all images in the content area
+      const images = document.querySelectorAll("#page-content img");
+      images.forEach((img) => {
+        // Add pointer cursor
+        img.classList.add("cursor-zoom-in");
+        // Add click listener
+        img.addEventListener("click", (e) => {
+          e.stopPropagation();
+          this.openLightbox(img.src);
+        });
+      });
     },
 
     applyMarkdownStyles(html) {

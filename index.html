@@ -182,5 +182,20 @@
         </div>
       </div>
     </footer>
+
+    <!-- Lightbox -->
+    <div
+      class="lightbox-overlay"
+      x-show="lightboxOpen"
+      x-transition.opacity
+      @click="closeLightbox()"
+      x-cloak
+      @keydown.escape.window="closeLightbox()"
+    >
+      <div class="lightbox-content">
+        <img :src="lightboxImage" class="lightbox-image" @click.stop />
+        <button class="lightbox-close" @click="closeLightbox()">&times;</button>
+      </div>
+    </div>
   </body>
 </html>
