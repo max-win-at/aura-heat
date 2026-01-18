@@ -469,14 +469,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"></script>
     <script>
       var multiplexDesc = {
-        secret: "bebf145fd735b1cd629bececb7353ff4",
         id: "c4f37c668b94d0710f605d30b12b676757fc84eaed48f8368edcf0fbbbce8f9e",
         url: "https://multiplex.up.railway.app/",
       };
 
-      var isLocal = window.location.hostname === "localhost";
+      // Read secret from URL query parameter
+      var urlParams = new URLSearchParams(window.location.search);
+      var secret = urlParams.get("secret");
+
       var multiplexConfig = {
-        secret: isLocal ? multiplexDesc.secret : null,
+        secret: secret,
         id: multiplexDesc.id,
         url: multiplexDesc.url,
       };
@@ -488,7 +490,7 @@
         dependencies: [
           { src: multiplexDesc.url + "socket.io/socket.io.js", async: true },
           {
-            src: multiplexDesc.url + (isLocal ? "master.js" : "client.js"),
+            src: multiplexDesc.url + (secret ? "master.js" : "client.js"),
             async: true,
           },
         ],
