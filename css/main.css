@@ -635,3 +635,13 @@ html {
 .cursor-zoom-in {
   cursor: zoom-in;
 }
+
+/* Gradient Fire Icon */
+.fire-icon {
+  background: -webkit-linear-gradient(45deg, #f97316, #ef4444);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: bold;
+}

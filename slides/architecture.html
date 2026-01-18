@@ -1,0 +1,517 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Digitale Souveränität durch Verteilung</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23ea580c'/%3E%3Ctext x='16' y='22' font-family='Inter, system-ui, sans-serif' font-size='14' font-weight='900' font-style='italic' fill='white' text-anchor='middle'%3EAH%3C/text%3E%3C/svg%3E"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/white.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/monokai.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --aura-orange: #ff6600;
+        --color-slate-800: #1e293b;
+        --color-orange-500: #f97316;
+        --color-slate-500: #64748b;
+        --color-slate-400: #94a3b8;
+      }
+      .reveal {
+        font-size: 24px; /* Reduced font size */
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4,
+      .reveal h5,
+      .reveal h6 {
+        color: var(--aura-orange);
+        text-transform: none;
+        font-family: "Inter", system-ui, sans-serif;
+        font-weight: 700;
+      }
+      .reveal a {
+        color: var(--aura-orange);
+      }
+
+      /* Fixed Header and Footer */
+      #header {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        z-index: 1000;
+        pointer-events: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #header > * {
+        pointer-events: auto;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-slate-800);
+        letter-spacing: -0.05em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logo-accent {
+        color: var(--color-orange-500);
+      }
+
+      .header-center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        white-space: nowrap;
+      }
+
+      .header-title {
+        font-weight: 700;
+        color: var(--color-slate-800);
+        font-size: 1.2rem;
+      }
+
+      /* Flame Animation */
+      .burning-flame {
+        width: 18px;
+        height: 18px;
+        position: relative;
+        transform-origin: center bottom;
+        animation-name: flame-flicker;
+        animation-duration: 1000ms;
+        animation-delay: 500ms;
+        animation-timing-function: ease-in;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        margin: 0 2px;
+      }
+
+      .flame {
+        bottom: 0;
+        position: absolute;
+        border-bottom-right-radius: 50%;
+        border-bottom-left-radius: 50%;
+        border-top-left-radius: 50%;
+        transform: rotate(-45deg) scale(1.5, 1.5);
+      }
+
+      .flame-yellow {
+        left: 4.5px;
+        width: 9px;
+        height: 9px;
+        background: gold;
+        box-shadow: 0px 0px 3px 2px gold;
+      }
+
+      .flame-orange {
+        left: 3px;
+        width: 12px;
+        height: 12px;
+        background: orange;
+        box-shadow: 0px 0px 3px 2px orange;
+      }
+
+      .flame-red {
+        left: 1.5px;
+        width: 15px;
+        height: 15px;
+        background: OrangeRed;
+        box-shadow: 0px 0px 2px 1px OrangeRed;
+      }
+
+      .flame-white {
+        left: 4.5px;
+        bottom: -1px;
+        width: 9px;
+        height: 9px;
+        background: white;
+        box-shadow: 0px 0px 3px 2px white;
+      }
+
+      .flame-circle {
+        border-radius: 50%;
+        position: absolute;
+      }
+
+      .flame-blue {
+        width: 3px;
+        height: 3px;
+        left: 7.5px;
+        bottom: -7.5px;
+        background: SlateBlue;
+        box-shadow: 0px 0px 5px 3px SlateBlue;
+      }
+
+      .flame-black {
+        width: 12px;
+        height: 12px;
+        left: 3px;
+        bottom: -18px;
+        background: white;
+        box-shadow: 0px 0px 5px 3px white;
+      }
+
+      @keyframes flame-flicker {
+        0% {
+          transform: rotate(-1deg);
+        }
+        20% {
+          transform: rotate(1deg);
+        }
+        40% {
+          transform: rotate(-1deg);
+        }
+        60% {
+          transform: rotate(1deg) scaleY(1.04);
+        }
+        80% {
+          transform: rotate(-2deg) scaleY(0.92);
+        }
+        100% {
+          transform: rotate(1deg);
+        }
+      }
+
+      #footer {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        z-index: 1000;
+        font-family: "Inter", system-ui, sans-serif;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.8rem;
+      }
+
+      .footer-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+      }
+
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .footer-logo {
+        width: 2rem;
+        height: 2rem;
+        background: var(--color-orange-500);
+        border-radius: 0.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 900;
+        font-style: italic;
+        font-size: 0.7rem;
+      }
+
+      .footer-brand-text {
+        font-weight: 700;
+        color: var(--color-slate-800);
+        text-transform: uppercase;
+        letter-spacing: -0.025em;
+        display: flex;
+        align-items: center;
+      }
+
+      .footer-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        text-align: right;
+      }
+
+      .footer-copyright {
+        color: var(--color-slate-500);
+      }
+
+      .footer-disclaimer {
+        font-size: 0.7rem;
+        color: var(--color-slate-400);
+        font-style: italic;
+      }
+
+      .fire-icon {
+        color: var(--color-orange-500);
+      }
+
+      @media print {
+        .pdf-hide {
+          display: none !important;
+        }
+      }
+
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Fixed Elements -->
+    <div id="header">
+      <div class="logo">
+        AURA
+        <div class="burning-flame">
+          <div class="flame-red flame"></div>
+          <div class="flame-orange flame"></div>
+          <div class="flame-yellow flame"></div>
+          <div class="flame-white flame"></div>
+          <div class="flame-blue flame-circle"></div>
+          <div class="flame-black flame-circle"></div>
+        </div>
+        <span class="logo-accent">HEAT</span>
+      </div>
+
+      <div class="header-center">
+        <span class="header-title">Digitale Souveränität durch Verteilung</span>
+        <a
+          id="pdf-btn"
+          href="?print-pdf"
+          title="PDF Formatierung"
+          class="pdf-hide"
+          style="
+            color: var(--color-slate-400);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: color 0.2s;
+          "
+        >
+          <span class="material-icons" style="font-size: 1.2rem"
+            >picture_as_pdf</span
+          >
+        </a>
+      </div>
+    </div>
+    <div id="footer">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <div class="footer-logo">AH</div>
+          <span class="footer-brand-text"
+            >Aura<span
+              class="material-icons fire-icon"
+              style="font-size: 1.25rem; vertical-align: middle"
+              >local_fire_department</span
+            >Heat</span
+          >
+        </div>
+        <div class="footer-meta">
+          <div class="footer-copyright">
+            © 2026 Aura<span
+              class="material-icons fire-icon"
+              style="font-size: 1rem; vertical-align: middle"
+              >local_fire_department</span
+            >Heat Project Group
+          </div>
+          <div class="footer-disclaimer">Aided by AI</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="slides">
+        <!-- Slide 1: Title -->
+        <section data-markdown>
+          <textarea data-template>
+                # Digitale Souveränität durch Verteilung
+              </textarea
+          >
+        </section>
+
+        <!-- Slide 2: TL;DR -->
+        <section data-markdown>
+          <textarea data-template>
+                ## TL;DR
+    
+                > Traditionelle KI-Anbieter setzen auf "Hyperscaling" und Vendor Lock-in.
+                >
+                > **Horizontale Skalierung** ermöglicht die Nutzung verteilter Rechenknoten (Nodes).
+                >
+                > Durch OSS und verteilte Hardware behalten Organisationen die volle Kontrolle über Daten und Algorithmen.
+              </textarea
+          >
+        </section>
+
+        <!-- Slide 3: Technische Machbarkeit (Horizontal) -->
+        <section data-markdown>
+          <textarea data-template>
+                  ## Technische Machbarkeit und Infrastruktur
+    
+                  Inferenz von Modellen wie **GPT-OSS 120b** oder **DeepSeek R1** über WAN.
+    
+                  ![Modell-Inferenz Architektur](../img/model-inference.jpg) <!-- .element: style="max-height: 400px" -->
+                </textarea
+          >
+        </section>
+
+        <!-- Slide 3.1: Parallelisierungsstrategien (Vertical) -->
+        <section data-markdown>
+          <textarea data-template>
+                  ### 1. Parallelisierungsstrategien
+    
+                  - **Pipeline Parallelism (PP):**
+                    Modell wird in Schichten zerlegt. Toleriert höhere Latenzen (WAN).
+                  - **Expert Parallelism (EP):**
+                    Für MoE-Modelle. Nur aktive Parameter werden übertragen (z.B. DeepSeek R1).
+                  - **Tensor Parallelism (TP):**
+                    Benötigt synchrone Kommunikation (NVLink), nur innerhalb eines Servers.
+                </textarea
+          >
+        </section>
+
+        <!-- Slide 3.2: Petals (Vertical) -->
+        <section data-markdown>
+          <textarea data-template>
+                  ### 2. Konkrete Infrastruktur-Lösung: Petals
+    
+                  - **P2P-Architektur:**
+                    Ähnlich BitTorrent; Modell in Blöcke zerlegt.
+                  - **Resilienz:**
+                    Auto-Routing bei Ausfällen (Distributed Hash Table).
+                  - **Leistung:**
+                    5–10 Token/Sekunde über Internet möglich.
+    
+                  ![Petals Architektur](../img/model-inference-petals.jpg) <!-- .element: style="max-height: 300px" -->
+                </textarea
+          >
+        </section>
+
+        <!-- Slide 3.3: Vergleich (Vertical) -->
+        <section data-markdown>
+          <textarea data-template>
+                  ### 3. Modell-Spezifikationen
+    
+                  | Merkmal | GPT-OSS 120b | DeepSeek R1 |
+                  | :--- | :--- | :--- |
+                  | **Architektur** | MoE (128 Experten) | MoE + MLA |
+                  | **VRAM (4-Bit)** | ~80 GB (MXFP4 nativ) | ~350–400 GB |
+                  | **Verteilbarkeit** | Exzellent (hohe Experten-Dichte) | Replikation der "Shared Experts" nötig |
+                </textarea
+          >
+        </section>
+
+        <!-- Slide 3.4: Skalierung (Vertical) -->
+        <section data-markdown>
+          <textarea data-template>
+                  ### 4. Skalierung für mehrere Nutzer
+    
+                  - **Continuous Batching:**
+                    Neue Anfragen sofort einschieben (vLLM).
+                  - **PagedAttention:**
+                    Optimiertes VRAM-Management für KV-Caches.
+                  - **API-Abstraktion:**
+                    Open WebUI als Orchestrator für Petals/vLLM Cluster.
+                </textarea
+          >
+        </section>
+
+        <!-- Slide 3.5: Nutzeranwendung (Vertical) -->
+        <section data-markdown>
+          <textarea data-template>
+                  ### 5. Nutzeranwendung
+    
+                  - **Open WebUI:**
+                    Docker-basiertes Interface, visualisiert Denkprozesse.
+                  - **Model Context Protocol (MCP):**
+                    Sichere Einbindung lokaler Daten. Modell läuft entfernt, Funktionsaufrufe lokal.
+                </textarea
+          >
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"></script>
+    <script>
+      var multiplexDesc = {
+        secret: "bebf145fd735b1cd629bececb7353ff4",
+        id: "c4f37c668b94d0710f605d30b12b676757fc84eaed48f8368edcf0fbbbce8f9e",
+        url: "https://multiplex.up.railway.app/",
+      };
+
+      var isLocal = window.location.hostname === "localhost";
+      var multiplexConfig = {
+        secret: isLocal ? multiplexDesc.secret : null,
+        id: multiplexDesc.id,
+        url: multiplexDesc.url,
+      };
+
+      Reveal.initialize({
+        hash: true,
+        plugins: [RevealMarkdown, RevealHighlight],
+        multiplex: multiplexConfig,
+        dependencies: [
+          { src: multiplexDesc.url + "socket.io/socket.io.js", async: true },
+          {
+            src: multiplexDesc.url + (isLocal ? "master.js" : "client.js"),
+            async: true,
+          },
+        ],
+      });
+
+      // PDF/Print Button Logic
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.location.search.match(/print-pdf/gi)) {
+          var pdfBtn = document.getElementById("pdf-btn");
+          if (pdfBtn) {
+            pdfBtn.href = "#";
+            pdfBtn.title = "Download via Print As PDF";
+            pdfBtn.onclick = function (e) {
+              e.preventDefault();
+              window.print();
+            };
+            var icon = pdfBtn.querySelector(".material-icons");
+            if (icon) {
+              icon.textContent = "download";
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
